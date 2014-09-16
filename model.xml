@@ -4,7 +4,11 @@
 			<and abstract="true" mandatory="true" name="bracketsspl">
 				<feature mandatory="true" name="Core"/>
 				<feature name="Widgets"/>
-				<feature name="LiveDevelopment"/>
+				<or name="LiveDevelopment">
+					<feature mandatory="true" name="Agents"/>
+					<feature mandatory="true" name="Documents"/>
+					<feature mandatory="true" name="Inspector"/>
+				</or>
 				<and mandatory="true" name="Editor">
 					<feature name="CodeHint"/>
 					<or abstract="true" name="InlineEditor">
@@ -13,6 +17,11 @@
 					</or>
 					<feature name="InlineWidget"/>
 				</and>
+				<or name="Extensibility">
+					<feature mandatory="true" name="InstallManagement"/>
+					<feature mandatory="true" name="ExtensionManagement"/>
+				</or>
+				<feature name="Help"/>
 			</and>
 		</struct>
 		<constraints/>
