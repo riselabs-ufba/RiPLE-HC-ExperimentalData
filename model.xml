@@ -7,7 +7,7 @@
 				<feature name="LiveDevelopment"/>
 				<and mandatory="true" name="Editor">
 					<feature name="CodeHint"/>
-					<or name="InlineEditor">
+					<or abstract="true" name="InlineEditor">
 						<feature mandatory="true" name="CSSInlineEditor"/>
 						<feature mandatory="true" name="TextInlineEditor"/>
 					</or>
