@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="bracketsspl">
+				<feature mandatory="true" name="Core"/>
+				<feature name="Widgets"/>
+				<feature name="LiveDevelopment"/>
+				<and mandatory="true" name="Editor">
+					<feature name="CodeHint"/>
+					<or name="InlineEditor">
+						<feature mandatory="true" name="CSSInlineEditor"/>
+						<feature mandatory="true" name="TextInlineEditor"/>
+					</or>
+					<feature name="InlineWidget"/>
+				</and>
+			</and>
+		</struct>
+		<constraints/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
