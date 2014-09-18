@@ -32,7 +32,9 @@
 define(function ScriptAgent(require, exports, module) {
     "use strict";
 
+ // #ifdef Inspector 
     var Inspector = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
     var DOMAgent = require("LiveDevelopment/Agents/DOMAgent");
 
     var _load; // the load promise
@@ -67,7 +69,9 @@ define(function ScriptAgent(require, exports, module) {
 
     // DOMAgent Event: Document root loaded
     function _onGetDocument(event, res) {
+    	// #ifdef Inspector 
         Inspector.DOMDebugger.setDOMBreakpoint(res.root.nodeId, "subtree-modified");
+        // #endif
         _load.resolve();
     }
 
@@ -101,14 +105,18 @@ define(function ScriptAgent(require, exports, module) {
 
         // Exception
         case "exception":
+        	// #ifdef Inspector 
             Inspector.Debugger.resume();
+            // #endif
             // var callFrame = res.callFrames[0];
             // var script = scriptWithId(callFrame.location.scriptId);
             break;
 
         // DOMBreakpoint
         case "DOM":
+        	// #ifdef Inspector 
             Inspector.Debugger.resume();
+            // #endif
             if (res.data.type === "subtree-modified" && res.data.insertion === true) {
                 _insertTrace = res.callFrames;
             }
@@ -141,20 +149,25 @@ define(function ScriptAgent(require, exports, module) {
         _load = new $.Deferred();
 
         var enableResult = new $.Deferred();
-
+     // #ifdef Inspector 
         Inspector.Debugger.enable().done(function () {
             Inspector.Debugger.setPauseOnExceptions("uncaught").done(function () {
                 enableResult.resolve();
             });
         });
+        // #endif
 
+     // #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.ScriptAgent", _onFrameNavigated);
+        // #endif
         $(DOMAgent).on("getDocument.ScriptAgent", _onGetDocument);
+     // #ifdef Inspector 
         $(Inspector.Debugger)
             .on("scriptParsed.ScriptAgent", _onScriptParsed)
             .on("scriptFailedToParse.ScriptAgent", _onScriptFailedToParse)
             .on("paused.ScriptAgent", _onPaused);
         $(Inspector.DOM).on("childNodeInserted.ScriptAgent", _onChildNodeInserted);
+        // #endif
 
         return $.when(_load.promise(), enableResult.promise());
     }
@@ -162,10 +175,14 @@ define(function ScriptAgent(require, exports, module) {
     /** Clean up */
     function unload() {
         _reset();
+     // #ifdef Inspector 
         $(Inspector.Page).off(".ScriptAgent");
+        // #endif
         $(DOMAgent).off(".ScriptAgent");
+     // #ifdef Inspector 
         $(Inspector.Debugger).off(".ScriptAgent");
         $(Inspector.DOM).off(".ScriptAgent");
+        // #endif
     }
 
     // Export public functions

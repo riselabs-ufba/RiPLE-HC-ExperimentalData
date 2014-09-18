@@ -49,7 +49,9 @@ define(function HTMLDocumentModule(require, exports, module) {
         EditorManager       = require("editor/EditorManager"),
         HighlightAgent      = require("LiveDevelopment/Agents/HighlightAgent"),
         HTMLInstrumentation = require("language/HTMLInstrumentation"),
+     // #ifdef Inspector 
         Inspector           = require("LiveDevelopment/Inspector/Inspector"),
+        // #endif
         LiveDevelopment     = require("LiveDevelopment/LiveDevelopment"),
         PerfUtils           = require("utils/PerfUtils"),
         RemoteAgent         = require("LiveDevelopment/Agents/RemoteAgent"),
@@ -188,6 +190,7 @@ define(function HTMLDocumentModule(require, exports, module) {
         var editor = this.editor,
             codeMirror = editor._codeMirror,
             ids = [];
+     // #ifdef Inspector 
         if (Inspector.config.highlight) {
             _.each(this.editor.getSelections(), function (sel) {
                 var tagID = HTMLInstrumentation._getTagIDAtDocumentPos(
@@ -205,6 +208,7 @@ define(function HTMLDocumentModule(require, exports, module) {
                 HighlightAgent.domElement(ids);
             }
         }
+        // #endif
     };
 
     /** Event Handlers *******************************************************/

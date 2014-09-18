@@ -91,9 +91,11 @@ define(function LiveDevelopment(require, exports, module) {
         Strings                 = require("strings"),
         StringUtils             = require("utils/StringUtils"),
         UserServer              = require("LiveDevelopment/Servers/UserServer").UserServer;
-
+ 
+    // #ifdef Inspector 
     // Inspector
     var Inspector               = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
 
     // Documents
     var CSSDocument             = require("LiveDevelopment/Documents/CSSDocument"),
@@ -793,13 +795,17 @@ define(function LiveDevelopment(require, exports, module) {
      */
     function _doInspectorDisconnect(doCloseWindow) {
         var closePromise,
-            deferred    = new $.Deferred(),
-            connected   = Inspector.connected();
+            deferred    = new $.Deferred()
+     // #ifdef Inspector 
+        ,  connected   = Inspector.connected()
+            // #endif
+            ;
 
         $(EditorManager).off("activeEditorChange", onActiveEditorChange);
-        
+     // #ifdef Inspector 
         $(Inspector.Page).off(".livedev");
         $(Inspector).off(".livedev");
+        // #endif
 
         // Wait if agents are loading
         if (_loadAgentsPromise) {
@@ -819,8 +825,13 @@ define(function LiveDevelopment(require, exports, module) {
             _server = null;
         }
 
-        if (doCloseWindow && connected) {
+        if (doCloseWindow // #ifdef Inspector 
+        		&& connected
+        		// #endif
+        		) {
+        	// #ifdef Inspector 
             closePromise = Inspector.Runtime.evaluate("window.open('', '_self').close();");
+            // #endif
 
             // Add a timeout to continue cleanup if Inspector does not respond
             closePromise = Async.withTimeout(closePromise, 5000);
@@ -830,11 +841,13 @@ define(function LiveDevelopment(require, exports, module) {
 
         // Disconnect WebSocket if connected
         closePromise.always(function () {
-            if (Inspector.connected()) {
+        	// #ifdef Inspector 
+        	if (Inspector.connected()) {
                 Inspector.disconnect().always(deferred.resolve);
             } else {
                 deferred.resolve();
             }
+        	// #endif
         });
 
         return deferred.promise();
@@ -978,9 +991,11 @@ define(function LiveDevelopment(require, exports, module) {
         // To accomodate this, we load all agents (in reconnect())
         // and navigate in parallel.
         reconnect();
-
+     
+        // #ifdef Inspector         
         // Reload HTML page
         Inspector.Page.reload();
+        // #endif
     }
 
     /**
@@ -1011,8 +1026,12 @@ define(function LiveDevelopment(require, exports, module) {
          * finished loading; if not, check again until timing out.
          */
         function pollInterstitialPage() {
-            if (keepPolling && Inspector.connected()) {
-                Inspector.Runtime.evaluate("window.isBracketsLiveDevelopmentInterstitialPageLoaded", function (response) {
+            if (keepPolling // #ifdef Inspector 
+            		&& Inspector.connected()
+            		// #endif
+            		) {
+            	// #ifdef Inspector 
+            	Inspector.Runtime.evaluate("window.isBracketsLiveDevelopmentInterstitialPageLoaded", function (response) {
                     var result = response.result;
                     
                     if (result.type === "boolean" && result.value) {
@@ -1022,6 +1041,7 @@ define(function LiveDevelopment(require, exports, module) {
                         window.setTimeout(pollInterstitialPage, 100);
                     }
                 });
+            	// #endif
             } else {
                 deferred.reject();
             }
@@ -1037,11 +1057,12 @@ define(function LiveDevelopment(require, exports, module) {
      * interstitial page has finished loading.
      */
     function _onInterstitialPageLoad() {
-
+    	// #ifdef Inspector 
         Inspector.Runtime.evaluate("window.navigator.userAgent", function (uaResponse) {
             Inspector.setUserAgent(uaResponse.result.value);
         });
-
+        // #endif
+     // #ifdef Inspector 
         // Domains for some agents must be enabled first before loading
         var enablePromise = Inspector.Page.enable().then(_enableAgents);
         
@@ -1075,15 +1096,18 @@ define(function LiveDevelopment(require, exports, module) {
                 }
             });
         });
+        // #endif
     }
     
     /** Triggered by Inspector.connect */
     function _onConnect(event) {
+    	// #ifdef Inspector 
         // When the browser navigates away from the primary live document
         $(Inspector.Page).on("frameNavigated.livedev", _onFrameNavigated);
 
         // When the Inspector WebSocket disconnects unexpectedely
         $(Inspector).on("disconnect.livedev", _onDisconnect);
+        // #endif
 		
         _waitForInterstitialPageLoad()
             .fail(function () {
@@ -1119,7 +1143,7 @@ define(function LiveDevelopment(require, exports, module) {
     function _openInterstitialPage() {
         var browserStarted  = false,
             retryCount      = 0;
-        
+     // #ifdef Inspector 
         // Open the live browser if the connection fails, retry 3 times
         Inspector.connectToURL(launcherUrl).fail(function onConnectFail(err) {
             if (err === "CANCEL") {
@@ -1222,6 +1246,7 @@ define(function LiveDevelopment(require, exports, module) {
                 }, 3000);
             }
         });
+        // #endif
     }
 
     // helper function that actually does the launch once we are sure we have
@@ -1234,8 +1259,10 @@ define(function LiveDevelopment(require, exports, module) {
         // start listening for requests
         _server.start();
 
+     // #ifdef Inspector 
         // Install a one-time event handler when connected to the launcher page
         $(Inspector).one("connect", _onConnect);
+        // #endif
         
         // open browser to the interstitial page to prepare for loading agents
         _openInterstitialPage();
@@ -1360,14 +1387,22 @@ define(function LiveDevelopment(require, exports, module) {
 
     /** Hide any active highlighting */
     function hideHighlight() {
-        if (Inspector.connected() && agents.highlight) {
+        if (
+        		// #ifdef Inspector 
+        		Inspector.connected() &&
+        		// #endif
+        		agents.highlight) {
             agents.highlight.hide();
         }
     }
     
     /** Redraw highlights **/
     function redrawHighlight() {
-        if (Inspector.connected() && agents.highlight) {
+        if (
+        		// #ifdef Inspector 
+        		Inspector.connected() && 
+        		// #endif
+        		agents.highlight) {
             agents.highlight.redraw();
         }
     }
@@ -1379,7 +1414,10 @@ define(function LiveDevelopment(require, exports, module) {
     function _onDocumentChange() {
         var doc = _getCurrentDocument();
         
-        if (!doc || !Inspector.connected()) {
+        if (!doc // #ifdef Inspector 
+        		|| !Inspector.connected()
+        		// #endif
+        		) {
             return;
         }
         
@@ -1418,7 +1456,11 @@ define(function LiveDevelopment(require, exports, module) {
      * @param {Document} doc
      */
     function _onDocumentSaved(event, doc) {
-        if (!Inspector.connected() || !_server) {
+        if (
+        		// #ifdef Inspector 
+        		!Inspector.connected() || 
+        		// #endif
+        		!_server) {
             return;
         }
         
@@ -1441,8 +1483,10 @@ define(function LiveDevelopment(require, exports, module) {
 
     /** Triggered by a change in dirty flag from the DocumentManager */
     function _onDirtyFlagChange(event, doc) {
-        if (doc && Inspector.connected() &&
-                _server && agents.network && agents.network.wasURLRequested(_server.pathToUrl(doc.file.fullPath))) {
+        if (doc // #ifdef Inspector 
+        		&& Inspector.connected() 
+        		// #endif
+        		&&  _server && agents.network && agents.network.wasURLRequested(_server.pathToUrl(doc.file.fullPath))) {
             // Set status to out of sync if dirty. Otherwise, set it to active status.
             _setStatus(_docIsOutOfSync(doc) ? STATUS_OUT_OF_SYNC : STATUS_ACTIVE);
         }
@@ -1468,8 +1512,10 @@ define(function LiveDevelopment(require, exports, module) {
     function init(theConfig) {
         exports.config = theConfig;
         
+     // #ifdef Inspector 
         $(Inspector).on("error", _onError);
         $(Inspector.Inspector).on("detached", _onDetached);
+        // #endif
 
         // Only listen for styleSheetAdded
         // We may get interim added/removed events when pushing incremental updates

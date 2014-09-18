@@ -38,7 +38,9 @@ define(function RemoteAgent(require, exports, module) {
     var $exports = $(exports);
 
     var LiveDevelopment = require("LiveDevelopment/LiveDevelopment"),
+ // #ifdef Inspector 
         Inspector       = require("LiveDevelopment/Inspector/Inspector"),
+        // #endif
         RemoteFunctions = require("text!LiveDevelopment/Agents/RemoteFunctions.js");
 
     var _load; // deferred load
@@ -85,8 +87,10 @@ define(function RemoteAgent(require, exports, module) {
                 }
             });
 
+         // #ifdef Inspector 
             Inspector.Runtime.callFunctionOn(objectId, method, params, undefined, callback)
                 .then(deferred.resolve, deferred.reject);
+            // #endif
         });
 
         return deferred.promise();
@@ -135,6 +139,7 @@ define(function RemoteAgent(require, exports, module) {
         // inject RemoteFunctions
         var command = "window._LD=" + RemoteFunctions + "(" + LiveDevelopment.config.experimental + ");";
 
+     // #ifdef Inspector 
         Inspector.Runtime.evaluate(command, function onEvaluate(response) {
             if (response.error || response.wasThrown) {
                 _load.reject(response.error);
@@ -145,22 +150,27 @@ define(function RemoteAgent(require, exports, module) {
                 _startKeepAliveInterval();
             }
         });
+        // #endif
     }
 
     /** Initialize the agent */
     function load() {
         _load = new $.Deferred();
+     // #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.RemoteAgent", _onFrameNavigated);
         $(Inspector.Page).on("frameStartedLoading.RemoteAgent", _stopKeepAliveInterval);
         $(Inspector.DOM).on("attributeModified.RemoteAgent", _onAttributeModified);
+        // #endif
 
         return _load.promise();
     }
 
     /** Clean up */
     function unload() {
+    	// #ifdef Inspector 
         $(Inspector.Page).off(".RemoteAgent");
         $(Inspector.DOM).off(".RemoteAgent");
+        // #endif
         _stopKeepAliveInterval();
     }
 

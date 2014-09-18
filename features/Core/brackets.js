@@ -37,11 +37,13 @@
  */
 define(function (require, exports, module) {
     "use strict";
-
+    
     // Load dependent non-module scripts
+ // #ifdef Widgets
     require("widgets/bootstrap-dropdown");
     require("widgets/bootstrap-modal");
     require("widgets/bootstrap-twipsy-mod");
+//#endif
     require("thirdparty/path-utils/path-utils.min");
     require("thirdparty/smart-auto-complete-local/jquery.smart_autocomplete");
 
@@ -85,8 +87,10 @@ define(function (require, exports, module) {
         FileUtils               = require("file/FileUtils"),
         MainViewHTML            = require("text!htmlContent/main-view.html"),
         Strings                 = require("strings"),
+     // #ifdef Widgets        
         Dialogs                 = require("widgets/Dialogs"),
         DefaultDialogs          = require("widgets/DefaultDialogs"),
+  // #endif
         ExtensionLoader         = require("utils/ExtensionLoader"),
         SidebarView             = require("project/SidebarView"),
         Async                   = require("utils/Async"),
@@ -94,7 +98,9 @@ define(function (require, exports, module) {
         UrlParams               = require("utils/UrlParams").UrlParams,
         PreferencesManager      = require("preferences/PreferencesManager"),
         Resizer                 = require("utils/Resizer"),
+     // #ifdef LiveDevelopment        
         LiveDevelopmentMain     = require("LiveDevelopment/main"),
+  // #endif
         NodeConnection          = require("utils/NodeConnection"),
         NodeDomain              = require("utils/NodeDomain"),
         ExtensionUtils          = require("utils/ExtensionUtils"),
@@ -167,7 +173,9 @@ define(function (require, exports, module) {
             DocumentCommandHandlers : DocumentCommandHandlers,
             DocumentManager         : DocumentManager,
             DocumentModule          : require("document/Document"),
+     // #ifdef Agents            
             DOMAgent                : require("LiveDevelopment/Agents/DOMAgent"),
+  // #endif
             DragAndDrop             : DragAndDrop,
             EditorManager           : EditorManager,
             ExtensionLoader         : ExtensionLoader,
@@ -181,20 +189,26 @@ define(function (require, exports, module) {
             FindInFiles             : require("search/FindInFiles"),
             FindInFilesUI           : require("search/FindInFilesUI"),
             HTMLInstrumentation     : require("language/HTMLInstrumentation"),
+           // #ifdef Inspector
             Inspector               : require("LiveDevelopment/Inspector/Inspector"),
+            // #endif
             InstallExtensionDialog  : require("extensibility/InstallExtensionDialog"),
             JSUtils                 : JSUtils,
             KeyBindingManager       : KeyBindingManager,
             LanguageManager         : LanguageManager,
+            // #ifdef Widgets            
             LiveDevelopment         : require("LiveDevelopment/LiveDevelopment"),
             LiveDevServerManager    : require("LiveDevelopment/LiveDevServerManager"),
+         // #endif
             Menus                   : Menus,
             MultiRangeInlineEditor  : require("editor/MultiRangeInlineEditor").MultiRangeInlineEditor,
             NativeApp               : NativeApp,
             PerfUtils               : PerfUtils,
             PreferencesManager      : PreferencesManager,
             ProjectManager          : ProjectManager,
+      // #ifdef Agents            
             RemoteAgent             : require("LiveDevelopment/Agents/RemoteAgent"),
+   // #endif
             ScrollTrackMarkers      : require("search/ScrollTrackMarkers"),
             UpdateNotification      : require("utils/UpdateNotification"),
             WorkingSetView          : WorkingSetView,

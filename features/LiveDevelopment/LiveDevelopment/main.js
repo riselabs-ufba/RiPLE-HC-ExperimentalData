@@ -40,7 +40,9 @@ define(function main(require, exports, module) {
         Commands            = require("command/Commands"),
         AppInit             = require("utils/AppInit"),
         LiveDevelopment     = require("LiveDevelopment/LiveDevelopment"),
+      //#ifdef Inspector
         Inspector           = require("LiveDevelopment/Inspector/Inspector"),
+      //#endif
         CommandManager      = require("command/CommandManager"),
         PreferencesManager  = require("preferences/PreferencesManager"),
         Dialogs             = require("widgets/Dialogs"),
@@ -222,7 +224,9 @@ define(function main(require, exports, module) {
     /** Setup window references to useful LiveDevelopment modules */
     function _setupDebugHelpers() {
         window.ld = LiveDevelopment;
+        //#ifdef Inspector
         window.i = Inspector;
+        //#endif
         window.report = function report(params) { window.params = params; console.info(params); };
     }
 
@@ -236,8 +240,10 @@ define(function main(require, exports, module) {
     /** Initialize LiveDevelopment */
     AppInit.appReady(function () {
         params.parse();
-
+        
+        //#ifdef Inspector
         Inspector.init(config);
+        //#endif
         LiveDevelopment.init(config);
         _loadStyles();
         _setupGoLiveButton();
@@ -259,7 +265,12 @@ define(function main(require, exports, module) {
         // Redraw highlights when window gets focus. This ensures that the highlights
         // will be in sync with any DOM changes that may have occurred.
         $(window).focus(function () {
-            if (Inspector.connected() && config.highlight) {
+            if (
+            //#ifdef Inspector
+            Inspector.connected() &&
+            //#endif
+            config.highlight) {
+            
                 LiveDevelopment.redrawHighlight();
             }
         });

@@ -35,7 +35,9 @@ define(function HighlightAgent(require, exports, module) {
     "use strict";
 
     var DOMAgent        = require("LiveDevelopment/Agents/DOMAgent"),
+ // #ifdef Inspector 
         Inspector       = require("LiveDevelopment/Inspector/Inspector"),
+        // #endif
         LiveDevelopment = require("LiveDevelopment/LiveDevelopment"),
         RemoteAgent     = require("LiveDevelopment/Agents/RemoteAgent"),
         _               = require("thirdparty/lodash");
@@ -55,7 +57,9 @@ define(function HighlightAgent(require, exports, module) {
     function hide() {
         switch (_highlight.type) {
         case "node":
+        	// #ifdef Inspector 
             Inspector.DOM.hideHighlight();
+            // #endif
             break;
         case "css":
             RemoteAgent.call("hideHighlight");
@@ -72,9 +76,11 @@ define(function HighlightAgent(require, exports, module) {
             return;
         }
         
+     // #ifdef Inspector 
         if (!Inspector.config.highlight) {
             return;
         }
+        // #endif
 
         // go to the parent of a text node
         if (n && n.type === 3) {
@@ -93,7 +99,9 @@ define(function HighlightAgent(require, exports, module) {
 
         // highlight the node
         _highlight = {type: "node", ref: n.nodeId};
+     // #ifdef Inspector 
         Inspector.DOM.highlightNode(n.nodeId, Inspector.config.highlightConfig);
+        // #endif
     }
 
     /** Highlight all nodes affected by a CSS rule

@@ -54,7 +54,9 @@ define(function CSSDocumentModule(require, exports, module) {
         CSSUtils        = require("language/CSSUtils"),
         EditorManager   = require("editor/EditorManager"),
         HighlightAgent  = require("LiveDevelopment/Agents/HighlightAgent"),
+     // #ifdef Inspector 
         Inspector       = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
 
     /**
      * @constructor
@@ -123,9 +125,11 @@ define(function CSSDocumentModule(require, exports, module) {
             styleSheet = getOnlyValue(styleSheetHeader);
         
         if (styleSheet) {
+        	// #ifdef Inspector 
             Inspector.CSS.getStyleSheetText(styleSheet.styleSheetId).then(function (res) {
                 deferred.resolve(res.text);
             }, deferred.reject);
+            // #endif
         } else {
             deferred.reject();
         }
@@ -147,10 +151,11 @@ define(function CSSDocumentModule(require, exports, module) {
      */
     CSSDocument.prototype._updateBrowser = function () {
         var reloadPromise = CSSAgent.reloadCSSForDocument(this.doc);
-
+     // #ifdef Inspector 
         if (Inspector.config.highlight) {
             reloadPromise.done(HighlightAgent.redraw);
         }
+        // #endif
     };
 
     CSSDocument.prototype.attachToEditor = function (editor) {
@@ -174,7 +179,10 @@ define(function CSSDocumentModule(require, exports, module) {
     };
 
     CSSDocument.prototype.updateHighlight = function () {
-        if (Inspector.config.highlight && this.editor) {
+        if (// #ifdef Inspector 
+        		Inspector.config.highlight &&
+        		// #endif
+        		this.editor) {
             var editor = this.editor,
                 codeMirror = editor._codeMirror,
                 selectors = [];
@@ -262,7 +270,7 @@ define(function CSSDocumentModule(require, exports, module) {
         if (!node || !node.location) {
             return;
         }
-
+     // #ifdef Inspector 
         // WebInspector Command: CSS.getMatchedStylesForNode
         Inspector.CSS.getMatchedStylesForNode(node.nodeId, function onGetMatchesStyles(res) {
             // res = {matchedCSSRules, pseudoElements, inherited}
@@ -279,6 +287,7 @@ define(function CSSDocumentModule(require, exports, module) {
                 }
             }
         }.bind(this));
+    // #endif
     };
 
     // Export the class

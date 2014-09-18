@@ -41,7 +41,9 @@ define(function CSSPreprocessorDocumentModule(require, exports, module) {
         CSSUtils        = require("language/CSSUtils"),
         EditorManager   = require("editor/EditorManager"),
         HighlightAgent  = require("LiveDevelopment/Agents/HighlightAgent"),
+     // #ifdef Inspector 
         Inspector       = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
 
     /**
      * @constructor
@@ -95,7 +97,10 @@ define(function CSSPreprocessorDocumentModule(require, exports, module) {
     };
 
     CSSPreprocessorDocument.prototype.updateHighlight = function () {
-        if (Inspector.config.highlight && this.editor) {
+        if (// #ifdef Inspector 
+        		Inspector.config.highlight && 
+        		// #endif
+        		this.editor) {
             var editor = this.editor,
                 codeMirror = editor._codeMirror,
                 selectors = [];

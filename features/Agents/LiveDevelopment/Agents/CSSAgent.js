@@ -38,8 +38,9 @@ define(function CSSAgent(require, exports, module) {
     require("thirdparty/path-utils/path-utils.min");
 
     var _ = require("thirdparty/lodash");
-
+ // #ifdef Inspector 
     var Inspector = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
 
     /**
      * Stylesheet details
@@ -119,7 +120,9 @@ define(function CSSAgent(require, exports, module) {
             newContent = doc.getText();
         }
         for (styleSheetId in styles) {
+        	// #ifdef Inspector 
             deferreds.push(Inspector.CSS.setStyleSheetText(styles[styleSheetId].styleSheetId, newContent));
+            // #endif
         }
         if (!deferreds.length) {
             console.error("Style Sheet for document not loaded: " + doc.url);
@@ -190,17 +193,22 @@ define(function CSSAgent(require, exports, module) {
         // Check for undefined so user agent string is only parsed once
         if (_getAllStyleSheetsNotFound === undefined) {
             regexChromeUA = /Chrome\/(\d+)\./;  // Example: "... Chrome/34.0.1847.131 ..."
+         // #ifdef Inspector 
             userAgent     = Inspector.getUserAgent();
             uaMatch       = userAgent.match(regexChromeUA);
+            // #endif
 
             // If we have user agent string, and Chrome is >= 34, then don't use getAllStyleSheets
             if (uaMatch && parseInt(uaMatch[1], 10) >= 34) {
                 _getAllStyleSheetsNotFound = true;
+             // #ifdef Inspector 
                 $(Inspector.Page).off("frameStoppedLoading.CSSAgent", _onFrameStoppedLoading);
+                // #endif
                 return;
             }
         }
 
+     // #ifdef Inspector 
         // Manually fire getAllStyleSheets since it will be removed from
         // Inspector.json in a future update
         Inspector.send("CSS", "getAllStyleSheets").done(function (res) {
@@ -214,15 +222,20 @@ define(function CSSAgent(require, exports, module) {
             _getAllStyleSheetsNotFound = (err.code === -32601);
             $(Inspector.Page).off("frameStoppedLoading.CSSAgent", _onFrameStoppedLoading);
         });
+        // #endif
     }
 
     /** Enable the domain */
     function enable() {
-        return Inspector.CSS.enable();
+        return// #ifdef Inspector 
+        Inspector.CSS.enable()
+        // #endif
+        ;
     }
 
     /** Initialize the agent */
     function load() {
+    	// #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.CSSAgent", _onFrameNavigated);
         $(Inspector.CSS).on("styleSheetAdded.CSSAgent", _styleSheetAdded);
         $(Inspector.CSS).on("styleSheetRemoved.CSSAgent", _styleSheetRemoved);
@@ -231,12 +244,15 @@ define(function CSSAgent(require, exports, module) {
         if (!_getAllStyleSheetsNotFound) {
             $(Inspector.Page).on("frameStoppedLoading.CSSAgent", _onFrameStoppedLoading);
         }
+        // #endif
     }
 
     /** Clean up */
     function unload() {
+    	// #ifdef Inspector 
         $(Inspector.Page).off(".CSSAgent");
         $(Inspector.CSS).off(".CSSAgent");
+        // #endif
     }
 
     // Export public functions

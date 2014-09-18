@@ -53,7 +53,9 @@ define(function (require, exports, module) {
         PerfUtils           = require("utils/PerfUtils"),
         KeyEvent            = require("utils/KeyEvent"),
         LanguageManager     = require("language/LanguageManager"),
+     // #ifdef Inspector 
         Inspector           = require("LiveDevelopment/Inspector/Inspector"),
+        // #endif
         Menus               = require("command/Menus"),
         UrlParams           = require("utils/UrlParams").UrlParams,
         StatusBar           = require("widgets/StatusBar");
@@ -1457,6 +1459,7 @@ define(function (require, exports, module) {
             result.resolve();
         } else {
             var port = brackets.app.getRemoteDebuggingPort ? brackets.app.getRemoteDebuggingPort() : 9234;
+         // #ifdef Inspector 
             Inspector.getDebuggableWindows("127.0.0.1", port)
                 .fail(result.reject)
                 .done(function (response) {
@@ -1478,6 +1481,7 @@ define(function (require, exports, module) {
                     // In case of an error
                     _socket.onerror = result.reject;
                 });
+            // #endif
         }
          
         return result.promise();

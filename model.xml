@@ -24,7 +24,14 @@
 				<feature name="Help"/>
 			</and>
 		</struct>
-		<constraints/>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Agents</var>
+					<var>Inspector</var>
+				</imp>
+			</rule>
+		</constraints>
 		<comments/>
 		<featureOrder userDefined="false"/>
 	</featureModel>

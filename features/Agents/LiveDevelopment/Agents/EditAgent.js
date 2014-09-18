@@ -32,7 +32,9 @@
 define(function EditAgent(require, exports, module) {
     "use strict";
 
+ // #ifdef Inspector 
     var Inspector = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
     var DOMAgent = require("LiveDevelopment/Agents/DOMAgent");
     var RemoteAgent = require("LiveDevelopment/Agents/RemoteAgent");
     var GotoAgent = require("LiveDevelopment/Agents/GotoAgent");
@@ -105,7 +107,9 @@ define(function EditAgent(require, exports, module) {
 
         // detach from DOM change events
         if (res.value === "0") {
+        	// #ifdef Inspector 
             $(Inspector.DOM).off(".EditAgent");
+            // #endif
             return;
         }
 
@@ -116,9 +120,10 @@ define(function EditAgent(require, exports, module) {
             return;
         }
         _editedNode = node;
-
+     // #ifdef Inspector 
         // attach to character data modified events
         $(Inspector.DOM).on("characterDataModified.EditAgent", _onCharacterDataModified);
+        // #endif
     }
 
     /** Initialize the agent */

@@ -32,8 +32,9 @@ define(function GotoAgent(require, exports, module) {
     "use strict";
 
     require("utils/Global");
-
+ // #ifdef Inspector 
     var Inspector = require("LiveDevelopment/Inspector/Inspector");
+    // #endif
     var DOMAgent = require("LiveDevelopment/Agents/DOMAgent");
     var ScriptAgent = require("LiveDevelopment/Agents/ScriptAgent");
     var RemoteAgent = require("LiveDevelopment/Agents/RemoteAgent");
@@ -118,6 +119,7 @@ define(function GotoAgent(require, exports, module) {
         // res = {nodeId, name, value}
         var node = DOMAgent.nodeWithId(res.nodeId);
 
+        // #ifdef Inspector 
         // get all css rules that apply to the given node
         Inspector.CSS.getMatchedStylesForNode(node.nodeId, function onMatchedStyles(res) {
             var i, callFrame, name, script, url, rule, targets = [];
@@ -134,6 +136,7 @@ define(function GotoAgent(require, exports, module) {
             }
             RemoteAgent.call("showGoto", targets);
         });
+        // #endif
     }
 
     /** Point the master editor to the given location
