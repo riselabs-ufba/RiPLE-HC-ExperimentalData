@@ -1,5 +1,8 @@
 Thumbs.db
 
+# ignone featurejs compiled files.
+/src
+
 # ignore jenkins build info
 /build.prop
 
@@ -9,16 +12,16 @@ Thumbs.db
 
 # ignore compiled files
 /dist
-/src/.index.html
-/src/styles/brackets.min.css
-/src/styles/brackets.min.css.map
+/features/Core/.index.html
+/features/Core/styles/brackets.min.css
+/features/Core/styles/brackets.min.css.map
 
 # ignore everything in the dev extension directory EXCEPT the README
 # (so that the directory is non-empty and can be in git)
-/src/extensions/dev/*
-!/src/extensions/dev/README
+/features/Core/extensions/dev/*
+!/features/Core/extensions/dev/README
 
-/src/extensions/disabled
+/features/Core/extensions/disabled
 
 #OSX .DS_Store files
 .DS_Store
@@ -33,4 +36,4 @@ Thumbs.db
 .idea
 
 # Files that can be automatically downloaded that we don't want to ship with our builds
-/src/extensibility/node/node_modules/request/tests/
+/features/Core/extensibility/node/node_modules/request/tests/
