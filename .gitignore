@@ -1,3 +1,4 @@
 /src
 /Core/features/Core/extensions/dev
 /bin
+*.DS_Store

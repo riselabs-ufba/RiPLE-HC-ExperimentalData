@@ -96,11 +96,11 @@ define(function JSDocumentModule(require, exports, module) {
     /** Triggered on change by the editor */
     JSDocument.prototype.onChange = function onChange(event, editor, change) {
         var src = this.doc.getText();
-     // #ifdef Inspector 
+     // ifdef Inspector 
         Inspector.Debugger.setScriptSource(this.script().scriptId, src, function onSetScriptSource(res) {
             Inspector.Runtime.evaluate("if($)$(\"canvas\").each(function(i,e){if(e.rerender)e.rerender()})");
         }.bind(this));
-        // #endif
+        // endif
     };
 
     /** Triggered by the HighlightAgent to highlight a node in the editor */
