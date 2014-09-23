@@ -22,20 +22,21 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, browser: true, nomen: true, indent: 4, maxerr: 50, regexp: true */
-/*global define, describe, it, xit, expect, beforeEach, afterEach, waitsFor, runs, brackets, waitsForDone, beforeFirst, afterLast */
+/*global define, describe, it, xit, expect, beforeEach, afterEach, waitsFor, runs, $, brackets, waitsForDone, beforeFirst, afterLast, spyOn */
 
 define(function (require, exports, module) {
     "use strict";
 
     var Commands             = brackets.getModule("command/Commands"),
         CommandManager       = brackets.getModule("command/CommandManager"),
-        MainViewManager      = brackets.getModule("view/MainViewManager"),
         DocumentManager      = brackets.getModule("document/DocumentManager"),
+        Editor               = brackets.getModule("editor/Editor").Editor,
         EditorManager        = brackets.getModule("editor/EditorManager"),
         FileSystem           = brackets.getModule("filesystem/FileSystem"),
         FileUtils            = brackets.getModule("file/FileUtils"),
         PreferencesManager   = brackets.getModule("preferences/PreferencesManager"),
         SpecRunnerUtils      = brackets.getModule("spec/SpecRunnerUtils"),
+        UnitTestReporter     = brackets.getModule("test/UnitTestReporter"),
         JSCodeHints          = require("main"),
         Preferences          = require("Preferences"),
         ScopeManager         = require("ScopeManager"),
@@ -53,7 +54,7 @@ define(function (require, exports, module) {
     CommandManager.register("test-file-open", Commands.FILE_OPEN, function (fileInfo) {
         // Register a command for FILE_OPEN, which the jump to def code will call
         return DocumentManager.getDocumentForPath(fileInfo.fullPath).done(function (doc) {
-            MainViewManager._edit(MainViewManager.ACTIVE_PANE, doc);
+            DocumentManager.setCurrentDocument(doc);
         });
     });
     
@@ -269,7 +270,7 @@ define(function (require, exports, module) {
          * @param {string} hintSelection - the hint to select
          */
         function selectHint(provider, hintObj, hintSelection) {
-            expectHints(provider);
+            var hintList = expectHints(provider);
             _waitForHints(hintObj, function (hintList) {
                 expect(hintList).toBeTruthy();
                 var index = findHint(hintList, hintSelection);
@@ -314,6 +315,8 @@ define(function (require, exports, module) {
          *  editor is expected to stay in the same file, then file may be omitted.  
          */
         function editorJumped(expectedLocation) {
+            var oldLocation = testEditor.getCursorPos();
+            
             var jumpPromise = JSCodeHints.handleJumpToDefinition();
             
             
@@ -437,7 +440,7 @@ define(function (require, exports, module) {
 
             // The following call ensures that the document is reloaded
             // from disk before each test
-            MainViewManager._closeAll(MainViewManager.ALL_PANES);
+            DocumentManager.closeAll();
             SpecRunnerUtils.destroyMockEditor(testDoc);
             testEditor = null;
             testDoc = null;
@@ -934,7 +937,7 @@ define(function (require, exports, module) {
                 var testPos = { line: 96, ch: 33 };
                 
                 testEditor.setCursorPos(testPos);
-                expectHints(JSCodeHints.jsHintProvider);
+                var hintObj = expectHints(JSCodeHints.jsHintProvider);
                 runs(function () {
                     expectParameterHint([], 0);
                 });

@@ -27,17 +27,23 @@
 define(function (require, exports, module) {
     "use strict";
     
-    var KeyEvent    = brackets.getModule("utils/KeyEvent"),
-        Strings     = brackets.getModule("strings");
+    var EditorManager   = brackets.getModule("editor/EditorManager"),
+        KeyEvent        = brackets.getModule("utils/KeyEvent"),
+        Strings         = brackets.getModule("strings");
 
-    var TimingFunctionUtils = require("TimingFunctionUtils");
+    var TimingFunctionUtils            = require("TimingFunctionUtils"),
+        InlineTimingFunctionEditor     = require("InlineTimingFunctionEditor").InlineTimingFunctionEditor;
     
     /** Mustache template that forms the bare DOM structure of the UI */
     var StepEditorTemplate   = require("text!StepEditorTemplate.html");
     
     /** @const @type {number} */
-    var STEP_LINE   = 1,
-        DASH_LINE   = 2;
+    var STEP_LINE       =   1,
+        DASH_LINE       =   2,
+        HEIGHT_MAIN     = 150,    // height of main grid
+        WIDTH_MAIN      = 150;    // width of main grid
+
+    var animationRequest = null;
 
     /**
      * StepParameters object constructor

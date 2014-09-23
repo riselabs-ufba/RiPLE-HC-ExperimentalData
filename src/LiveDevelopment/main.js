@@ -23,7 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, forin: true, maxerr: 50, regexp: true */
-/*global define, $, less, window */
+/*global brackets, define, $, less, window */
 
 /**
  * main integrates LiveDevelopment into Brackets
@@ -40,6 +40,7 @@ define(function main(require, exports, module) {
         Commands            = require("command/Commands"),
         AppInit             = require("utils/AppInit"),
         LiveDevelopment     = require("LiveDevelopment/LiveDevelopment"),
+
         Inspector           = require("LiveDevelopment/Inspector/Inspector"),
         CommandManager      = require("command/CommandManager"),
         PreferencesManager  = require("preferences/PreferencesManager"),
@@ -64,6 +65,7 @@ define(function main(require, exports, module) {
             showInfo: true
         }
     };
+    var _checkMark = "✓"; // Check mark character
     // Status labels/styles are ordered: error, not connected, progress1, progress2, connected.
     var _statusTooltip = [
         Strings.LIVE_DEV_STATUS_TIP_NOT_CONNECTED,
@@ -79,6 +81,7 @@ define(function main(require, exports, module) {
     var _allStatusStyles = _statusStyle.join(" ");
 
     var _$btnGoLive; // reference to the GoLive button
+    var _$btnHighlight; // reference to the HighlightButton
 
     /** Load Live Development LESS Style */
     function _loadStyles() {
@@ -220,6 +223,7 @@ define(function main(require, exports, module) {
     /** Setup window references to useful LiveDevelopment modules */
     function _setupDebugHelpers() {
         window.ld = LiveDevelopment;
+
         window.i = Inspector;
         window.report = function report(params) { window.params = params; console.info(params); };
     }
@@ -257,7 +261,11 @@ define(function main(require, exports, module) {
         // Redraw highlights when window gets focus. This ensures that the highlights
         // will be in sync with any DOM changes that may have occurred.
         $(window).focus(function () {
-            if (Inspector.connected() && config.highlight) {
+            if (
+
+            Inspector.connected() &&
+            config.highlight) {
+            
                 LiveDevelopment.redrawHighlight();
             }
         });

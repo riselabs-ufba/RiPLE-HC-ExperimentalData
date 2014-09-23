@@ -201,7 +201,8 @@ define(function (require, exports, module) {
         // Are there any non-blank lines that aren't commented out? (We ignore blank lines because
         // some editors like Sublime don't comment them out)
         var i, line, prefix, commentI,
-            containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
+            containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp),
+            updateSelection        = false;
         
         if (containsNotLineComment) {
             // Comment out - prepend the first prefix to each line
@@ -552,7 +553,10 @@ define(function (require, exports, module) {
      *      An edit description suitable for including in the edits array passed to `Document.doMultipleEdits()`.
      */
     function _getLineCommentPrefixSuffixEdit(editor, prefix, suffix, lineSel) {
-        var sel = lineSel.selectionForEdit;
+        var sel             = lineSel.selectionForEdit,
+            selStart        = sel.start,
+            selEnd          = sel.end,
+            edit;
         
         // For one-line selections, we shrink the selection to exclude the trailing newline.
         if (sel.end.line === sel.start.line + 1 && sel.end.ch === 0) {
@@ -723,7 +727,8 @@ define(function (require, exports, module) {
             edits = [];
         
         _.each(lineSelections, function (lineSel, index) {
-            var sel = lineSel.selectionForEdit;
+            var sel = lineSel.selectionForEdit,
+                selStartLine = sel.start.line;
 
             from = sel.start;
             to = sel.end; // this is already at the beginning of the line after the last selected line

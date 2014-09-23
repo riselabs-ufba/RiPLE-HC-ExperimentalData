@@ -35,6 +35,7 @@ define(function HighlightAgent(require, exports, module) {
     "use strict";
 
     var DOMAgent        = require("LiveDevelopment/Agents/DOMAgent"),
+
         Inspector       = require("LiveDevelopment/Inspector/Inspector"),
         LiveDevelopment = require("LiveDevelopment/LiveDevelopment"),
         RemoteAgent     = require("LiveDevelopment/Agents/RemoteAgent"),
@@ -55,6 +56,7 @@ define(function HighlightAgent(require, exports, module) {
     function hide() {
         switch (_highlight.type) {
         case "node":
+
             Inspector.DOM.hideHighlight();
             break;
         case "css":
@@ -71,7 +73,7 @@ define(function HighlightAgent(require, exports, module) {
         if (!LiveDevelopment.config.experimental) {
             return;
         }
-        
+
         if (!Inspector.config.highlight) {
             return;
         }
@@ -93,6 +95,7 @@ define(function HighlightAgent(require, exports, module) {
 
         // highlight the node
         _highlight = {type: "node", ref: n.nodeId};
+
         Inspector.DOM.highlightNode(n.nodeId, Inspector.config.highlightConfig);
     }
 

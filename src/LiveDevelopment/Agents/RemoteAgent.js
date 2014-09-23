@@ -23,7 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, forin: true, maxerr: 50, regexp: true */
-/*global define, $, window */
+/*global define, $, XMLHttpRequest, window */
 
 /**
  * RemoteAgent defines and provides an interface for custom remote functions
@@ -38,6 +38,7 @@ define(function RemoteAgent(require, exports, module) {
     var $exports = $(exports);
 
     var LiveDevelopment = require("LiveDevelopment/LiveDevelopment"),
+
         Inspector       = require("LiveDevelopment/Inspector/Inspector"),
         RemoteFunctions = require("text!LiveDevelopment/Agents/RemoteFunctions.js");
 
@@ -150,17 +151,21 @@ define(function RemoteAgent(require, exports, module) {
     /** Initialize the agent */
     function load() {
         _load = new $.Deferred();
+     // #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.RemoteAgent", _onFrameNavigated);
         $(Inspector.Page).on("frameStartedLoading.RemoteAgent", _stopKeepAliveInterval);
         $(Inspector.DOM).on("attributeModified.RemoteAgent", _onAttributeModified);
+        // #endif
 
         return _load.promise();
     }
 
     /** Clean up */
     function unload() {
+    	// #ifdef Inspector 
         $(Inspector.Page).off(".RemoteAgent");
         $(Inspector.DOM).off(".RemoteAgent");
+        // #endif
         _stopKeepAliveInterval();
     }
 

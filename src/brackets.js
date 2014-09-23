@@ -23,7 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, brackets: true, $, window, navigator, Mustache */
+/*global require, define, brackets: true, $, window, navigator, Mustache */
 
 // TODO: (issue #264) break out the definition of brackets into a separate module from the application controller logic
 
@@ -37,11 +37,13 @@
  */
 define(function (require, exports, module) {
     "use strict";
-
+    
     // Load dependent non-module scripts
+ // #ifdef Widgets
     require("widgets/bootstrap-dropdown");
     require("widgets/bootstrap-modal");
     require("widgets/bootstrap-twipsy-mod");
+// #endif
     require("thirdparty/path-utils/path-utils.min");
     require("thirdparty/smart-auto-complete-local/jquery.smart_autocomplete");
 
@@ -61,13 +63,16 @@ define(function (require, exports, module) {
     require("thirdparty/CodeMirror2/keymap/sublime");
 
     // Load dependent modules
-    var AppInit                 = require("utils/AppInit"),
+    var Global                  = require("utils/Global"),
+        AppInit                 = require("utils/AppInit"),
         LanguageManager         = require("language/LanguageManager"),
         ProjectManager          = require("project/ProjectManager"),
         DocumentManager         = require("document/DocumentManager"),
         EditorManager           = require("editor/EditorManager"),
+        CSSInlineEditor         = require("editor/CSSInlineEditor"),
         JSUtils                 = require("language/JSUtils"),
         WorkingSetView          = require("project/WorkingSetView"),
+        WorkingSetSort          = require("project/WorkingSetSort"),
         DocumentCommandHandlers = require("document/DocumentCommandHandlers"),
         FileViewController      = require("project/FileViewController"),
         FileSyncManager         = require("project/FileSyncManager"),
@@ -77,38 +82,40 @@ define(function (require, exports, module) {
         CodeHintManager         = require("editor/CodeHintManager"),
         PerfUtils               = require("utils/PerfUtils"),
         FileSystem              = require("filesystem/FileSystem"),
+        QuickOpen               = require("search/QuickOpen"),
         Menus                   = require("command/Menus"),
+        FileUtils               = require("file/FileUtils"),
         MainViewHTML            = require("text!htmlContent/main-view.html"),
         Strings                 = require("strings"),
+     // #ifdef Widgets        
         Dialogs                 = require("widgets/Dialogs"),
         DefaultDialogs          = require("widgets/DefaultDialogs"),
+  // #endif
+        // #ifdef Extensibility
         ExtensionLoader         = require("utils/ExtensionLoader"),
+        // #endif
+        SidebarView             = require("project/SidebarView"),
         Async                   = require("utils/Async"),
         UpdateNotification      = require("utils/UpdateNotification"),
         UrlParams               = require("utils/UrlParams").UrlParams,
         PreferencesManager      = require("preferences/PreferencesManager"),
+        Resizer                 = require("utils/Resizer"),
+     // #ifdef LiveDevelopment        
+        LiveDevelopmentMain     = require("LiveDevelopment/main"),
+  // #endif
+        NodeConnection          = require("utils/NodeConnection"),
+        NodeDomain              = require("utils/NodeDomain"),
+     // #ifdef Extensibility
         ExtensionUtils          = require("utils/ExtensionUtils"),
+        // #endif
         DragAndDrop             = require("utils/DragAndDrop"),
+        ColorUtils              = require("utils/ColorUtils"),
         CodeInspection          = require("language/CodeInspection"),
         NativeApp               = require("utils/NativeApp"),
         DeprecationWarning      = require("utils/DeprecationWarning"),
         ViewCommandHandlers     = require("view/ViewCommandHandlers"),
-        MainViewManager         = require("view/MainViewManager");
-
-    // load modules for later use
-    require("utils/Global");
-    require("editor/CSSInlineEditor");
-    require("project/WorkingSetSort");
-    require("search/QuickOpen");
-    require("file/FileUtils");
-    require("project/SidebarView");
-    require("utils/Resizer");
-    require("LiveDevelopment/main");
-    require("utils/NodeConnection");
-    require("utils/NodeDomain");
-    require("utils/ColorUtils");
-    require("view/ThemeManager");
-    require("thirdparty/lodash");
+        ThemeManager            = require("view/ThemeManager"),
+        _                       = require("thirdparty/lodash");
     
     // DEPRECATED: In future we want to remove the global CodeMirror, but for now we
     // expose our required CodeMirror globally so as to avoid breaking extensions in the
@@ -131,9 +138,14 @@ define(function (require, exports, module) {
     require("help/HelpCommandHandlers");
     require("search/FindInFilesUI");
     require("search/FindReplace");
+ // #ifdef Extensibility
     require("extensibility/InstallExtensionDialog");
+ // #ifdef ExtensionManagement
     require("extensibility/ExtensionManagerDialog");
+    // #endif
+    // #endif
     require("editor/ImageViewer");
+    
     
     // Deprecated modules loaded just so extensions can still use them for now
     require("utils/CollectionUtils");
@@ -141,9 +153,6 @@ define(function (require, exports, module) {
     require("project/FileIndexManager");
     require("file/NativeFileSystem");
     require("file/NativeFileError");
-    
-    // Compatibility shim for PanelManager to WorkspaceManager migration
-    require("view/PanelManager");
     
     PerfUtils.addMeasurement("brackets module dependencies resolved");
     
@@ -173,11 +182,16 @@ define(function (require, exports, module) {
             DocumentCommandHandlers : DocumentCommandHandlers,
             DocumentManager         : DocumentManager,
             DocumentModule          : require("document/Document"),
+     // #ifdef Agents            
             DOMAgent                : require("LiveDevelopment/Agents/DOMAgent"),
+  // #endif
             DragAndDrop             : DragAndDrop,
             EditorManager           : EditorManager,
+//#ifdef Extensibility
             ExtensionLoader         : ExtensionLoader,
             ExtensionUtils          : ExtensionUtils,
+//#endif
+            
             File                    : require("filesystem/File"),
             FileFilters             : require("search/FileFilters"),
             FileSyncManager         : FileSyncManager,
@@ -187,25 +201,33 @@ define(function (require, exports, module) {
             FindInFiles             : require("search/FindInFiles"),
             FindInFilesUI           : require("search/FindInFilesUI"),
             HTMLInstrumentation     : require("language/HTMLInstrumentation"),
+           // #ifdef Inspector
             Inspector               : require("LiveDevelopment/Inspector/Inspector"),
+            // #endif
+            // #ifdef Extensibility          
             InstallExtensionDialog  : require("extensibility/InstallExtensionDialog"),
+         // #endif
+            
             JSUtils                 : JSUtils,
             KeyBindingManager       : KeyBindingManager,
             LanguageManager         : LanguageManager,
+            // #ifdef Widgets            
             LiveDevelopment         : require("LiveDevelopment/LiveDevelopment"),
             LiveDevServerManager    : require("LiveDevelopment/LiveDevServerManager"),
-            MainViewManager         : MainViewManager,
-            MainViewFactory         : require("view/MainViewFactory"),
+         // #endif
             Menus                   : Menus,
             MultiRangeInlineEditor  : require("editor/MultiRangeInlineEditor").MultiRangeInlineEditor,
             NativeApp               : NativeApp,
             PerfUtils               : PerfUtils,
             PreferencesManager      : PreferencesManager,
             ProjectManager          : ProjectManager,
+      // #ifdef Agents            
             RemoteAgent             : require("LiveDevelopment/Agents/RemoteAgent"),
+   // #endif
             ScrollTrackMarkers      : require("search/ScrollTrackMarkers"),
             UpdateNotification      : require("utils/UpdateNotification"),
             WorkingSetView          : WorkingSetView,
+
             doneLoading             : false
         };
 
@@ -219,6 +241,8 @@ define(function (require, exports, module) {
      */
     function _onReady() {
         PerfUtils.addMeasurement("window.document Ready");
+
+        EditorManager.setEditorHolder($("#editor-holder"));
 
         // Let the user know Brackets doesn't run in a web browser yet
         if (brackets.inBrowser) {
@@ -253,9 +277,6 @@ define(function (require, exports, module) {
             
             // Load the initial project after extensions have loaded
             extensionLoaderPromise.always(function () {
-               // Signal that extensions are loaded
-                AppInit._dispatchReady(AppInit.EXTENSIONS_LOADED);
-
                 // Finish UI initialization
                 ViewCommandHandlers.restoreFontSize();
                 var initialProjectPath = ProjectManager.getInitialProjectPath();
@@ -273,7 +294,7 @@ define(function (require, exports, module) {
                         if (ProjectManager.isWelcomeProjectPath(initialProjectPath)) {
                             FileSystem.resolve(initialProjectPath + "index.html", function (err, file) {
                                 if (!err) {
-                                    var promise = CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, { fullPath: file.fullPath });
+                                    var promise = CommandManager.execute(Commands.FILE_ADD_TO_WORKING_SET, { fullPath: file.fullPath });
                                     promise.then(deferred.resolve, deferred.reject);
                                 } else {
                                     deferred.reject();
@@ -307,8 +328,8 @@ define(function (require, exports, module) {
                     
                     // See if any startup files were passed to the application
                     if (brackets.app.getPendingFilesToOpen) {
-                        brackets.app.getPendingFilesToOpen(function (err, paths) {
-                            DragAndDrop.openDroppedFiles(paths);
+                        brackets.app.getPendingFilesToOpen(function (err, files) {
+                            DragAndDrop.openDroppedFiles(files);
                         });
                     }
                 });
@@ -381,9 +402,9 @@ define(function (require, exports, module) {
                 if (event.originalEvent.dataTransfer.files) {
                     event.stopPropagation();
                     event.preventDefault();
-                    brackets.app.getDroppedFiles(function (err, paths) {
+                    brackets.app.getDroppedFiles(function (err, files) {
                         if (!err) {
-                            DragAndDrop.openDroppedFiles(paths);
+                            DragAndDrop.openDroppedFiles(files);
                         }
                     });
                 }
@@ -417,7 +438,7 @@ define(function (require, exports, module) {
                     $target.is("input:not([type])") || // input with no type attribute defaults to text
                     $target.is("textarea") ||
                     $target.is("select");
-
+    
             if (!isFormElement) {
                 e.preventDefault();
             }

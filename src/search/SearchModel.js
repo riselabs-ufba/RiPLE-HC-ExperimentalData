@@ -26,7 +26,8 @@
 define(function (require, exports, module) {
     "use strict";
     
-    var FileUtils   = require("file/FileUtils"),
+    var _           = require("thirdparty/lodash"),
+        FileUtils   = require("file/FileUtils"),
         StringUtils = require("utils/StringUtils");
 
     /**

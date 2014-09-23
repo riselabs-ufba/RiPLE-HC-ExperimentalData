@@ -43,7 +43,7 @@ define(function (require, exports, module) {
     require("widgets/bootstrap-dropdown");
     require("widgets/bootstrap-modal");
     require("widgets/bootstrap-twipsy-mod");
-//#endif
+// #endif
     require("thirdparty/path-utils/path-utils.min");
     require("thirdparty/smart-auto-complete-local/jquery.smart_autocomplete");
 
@@ -91,7 +91,9 @@ define(function (require, exports, module) {
         Dialogs                 = require("widgets/Dialogs"),
         DefaultDialogs          = require("widgets/DefaultDialogs"),
   // #endif
+        // #ifdef Extensibility
         ExtensionLoader         = require("utils/ExtensionLoader"),
+        // #endif
         SidebarView             = require("project/SidebarView"),
         Async                   = require("utils/Async"),
         UpdateNotification      = require("utils/UpdateNotification"),
@@ -103,7 +105,9 @@ define(function (require, exports, module) {
   // #endif
         NodeConnection          = require("utils/NodeConnection"),
         NodeDomain              = require("utils/NodeDomain"),
+     // #ifdef Extensibility
         ExtensionUtils          = require("utils/ExtensionUtils"),
+        // #endif
         DragAndDrop             = require("utils/DragAndDrop"),
         ColorUtils              = require("utils/ColorUtils"),
         CodeInspection          = require("language/CodeInspection"),
@@ -134,9 +138,14 @@ define(function (require, exports, module) {
     require("help/HelpCommandHandlers");
     require("search/FindInFilesUI");
     require("search/FindReplace");
+ // #ifdef Extensibility
     require("extensibility/InstallExtensionDialog");
+ // #ifdef ExtensionManagement
     require("extensibility/ExtensionManagerDialog");
+    // #endif
+    // #endif
     require("editor/ImageViewer");
+    
     
     // Deprecated modules loaded just so extensions can still use them for now
     require("utils/CollectionUtils");
@@ -178,8 +187,11 @@ define(function (require, exports, module) {
   // #endif
             DragAndDrop             : DragAndDrop,
             EditorManager           : EditorManager,
+//#ifdef Extensibility
             ExtensionLoader         : ExtensionLoader,
             ExtensionUtils          : ExtensionUtils,
+//#endif
+            
             File                    : require("filesystem/File"),
             FileFilters             : require("search/FileFilters"),
             FileSyncManager         : FileSyncManager,
@@ -192,7 +204,10 @@ define(function (require, exports, module) {
            // #ifdef Inspector
             Inspector               : require("LiveDevelopment/Inspector/Inspector"),
             // #endif
+            // #ifdef Extensibility          
             InstallExtensionDialog  : require("extensibility/InstallExtensionDialog"),
+         // #endif
+            
             JSUtils                 : JSUtils,
             KeyBindingManager       : KeyBindingManager,
             LanguageManager         : LanguageManager,

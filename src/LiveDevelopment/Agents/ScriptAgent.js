@@ -40,6 +40,15 @@ define(function ScriptAgent(require, exports, module) {
     var _idToScript; // id -> script info
     var _insertTrace; // the last recorded trace of a DOM insertion
 
+    /** Add a call stack trace to a node
+     * @param {integer} node id
+     * @param [{Debugger.CallFrame}] call stack
+     */
+    function _addTraceToNode(nodeId, trace) {
+        var node = DOMAgent.nodeWithId(nodeId);
+        node.trace = trace;
+    }
+
     // TODO: should the parameter to this be an ID rather than a URL?
     /** Get the script information for a given url
      * @param {string} url
@@ -58,6 +67,7 @@ define(function ScriptAgent(require, exports, module) {
 
     // DOMAgent Event: Document root loaded
     function _onGetDocument(event, res) {
+
         Inspector.DOMDebugger.setDOMBreakpoint(res.root.nodeId, "subtree-modified");
         _load.resolve();
     }
@@ -92,6 +102,7 @@ define(function ScriptAgent(require, exports, module) {
 
         // Exception
         case "exception":
+
             Inspector.Debugger.resume();
             // var callFrame = res.callFrames[0];
             // var script = scriptWithId(callFrame.location.scriptId);
@@ -99,6 +110,7 @@ define(function ScriptAgent(require, exports, module) {
 
         // DOMBreakpoint
         case "DOM":
+
             Inspector.Debugger.resume();
             if (res.data.type === "subtree-modified" && res.data.insertion === true) {
                 _insertTrace = res.callFrames;
@@ -139,13 +151,17 @@ define(function ScriptAgent(require, exports, module) {
             });
         });
 
+     // #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.ScriptAgent", _onFrameNavigated);
+        // #endif
         $(DOMAgent).on("getDocument.ScriptAgent", _onGetDocument);
+     // #ifdef Inspector 
         $(Inspector.Debugger)
             .on("scriptParsed.ScriptAgent", _onScriptParsed)
             .on("scriptFailedToParse.ScriptAgent", _onScriptFailedToParse)
             .on("paused.ScriptAgent", _onPaused);
         $(Inspector.DOM).on("childNodeInserted.ScriptAgent", _onChildNodeInserted);
+        // #endif
 
         return $.when(_load.promise(), enableResult.promise());
     }
@@ -153,10 +169,14 @@ define(function ScriptAgent(require, exports, module) {
     /** Clean up */
     function unload() {
         _reset();
+     // #ifdef Inspector 
         $(Inspector.Page).off(".ScriptAgent");
+        // #endif
         $(DOMAgent).off(".ScriptAgent");
+     // #ifdef Inspector 
         $(Inspector.Debugger).off(".ScriptAgent");
         $(Inspector.DOM).off(".ScriptAgent");
+        // #endif
     }
 
     // Export public functions

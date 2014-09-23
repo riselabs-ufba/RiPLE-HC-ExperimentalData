@@ -50,10 +50,13 @@ define(function CSSDocumentModule(require, exports, module) {
     "use strict";
 
     var _               = require("thirdparty/lodash"),
+
         CSSAgent        = require("LiveDevelopment/Agents/CSSAgent"),
         CSSUtils        = require("language/CSSUtils"),
         EditorManager   = require("editor/EditorManager"),
+
         HighlightAgent  = require("LiveDevelopment/Agents/HighlightAgent"),
+
         Inspector       = require("LiveDevelopment/Inspector/Inspector");
 
     /**
@@ -123,6 +126,7 @@ define(function CSSDocumentModule(require, exports, module) {
             styleSheet = getOnlyValue(styleSheetHeader);
         
         if (styleSheet) {
+
             Inspector.CSS.getStyleSheetText(styleSheet.styleSheetId).then(function (res) {
                 deferred.resolve(res.text);
             }, deferred.reject);
@@ -174,8 +178,11 @@ define(function CSSDocumentModule(require, exports, module) {
     };
 
     CSSDocument.prototype.updateHighlight = function () {
-        if (Inspector.config.highlight && this.editor) {
+
+        		Inspector.config.highlight &&
+        		this.editor) {
             var editor = this.editor,
+                codeMirror = editor._codeMirror,
                 selectors = [];
             _.each(this.editor.getSelections(), function (sel) {
                 var selector = CSSUtils.findSelectorAtDocumentPos(editor, (sel.reversed ? sel.end : sel.start));

@@ -83,7 +83,8 @@ define(function (require, exports, module) {
      */
     FileIndex.prototype.removeEntry = function (entry) {
         var path = entry.fullPath,
-            property;
+            property,
+            member;
         
         function replaceMember(property) {
             var member = entry[property];
@@ -114,6 +115,8 @@ define(function (require, exports, module) {
      */
     FileIndex.prototype.entryRenamed = function (oldPath, newPath, isDirectory) {
         var path,
+            splitName = oldPath.split("/"),
+            finalPart = splitName.length - 1,
             renameMap = {};
         
         // Find all entries affected by the rename and put into a separate map.

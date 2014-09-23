@@ -35,7 +35,7 @@ define(function (require, exports, module) {
         CommandManager          = brackets.getModule("command/CommandManager"),
         KeyBindingManager       = brackets.getModule("command/KeyBindingManager"),
         Menus                   = brackets.getModule("command/Menus"),
-        MainViewManager         = brackets.getModule("view/MainViewManager"),
+        EditorManager           = brackets.getModule("editor/EditorManager"),
         ExtensionUtils          = brackets.getModule("utils/ExtensionUtils"),
         FileSystem              = brackets.getModule("filesystem/FileSystem"),
         AppInit                 = brackets.getModule("utils/AppInit"),
@@ -268,8 +268,7 @@ define(function (require, exports, module) {
         $("#titlebar .nav").off("click", closeDropdown);
         $dropdown = null;
 
-        MainViewManager.focusActivePane();
-
+        EditorManager.focusEditor();
         $(window).off("keydown", keydownHook);
     }
 

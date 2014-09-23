@@ -67,7 +67,7 @@ define(function ConsoleAgent(require, exports, module) {
         // res = {count}
         if (_lastMessage) {
             _log(_lastMessage);
-        }
+        } 
     }
 
     // WebInspector Event: Console.messagesCleared
@@ -80,20 +80,27 @@ define(function ConsoleAgent(require, exports, module) {
      * @return {jQuery.Promise} A promise resolved when the Console.enable() command is successful.
      */
     function enable() {
-        return Inspector.Console.enable();
+
+    	return         Inspector.Console.enable();
+        // #else
+       return null;
     }
 
     /** Initialize the agent */
     function load() {
+    	// #ifdef Inspector 
         $(Inspector.Console)
             .on("messageAdded.ConsoleAgent", _onMessageAdded)
             .on("messageRepeatCountUpdated.ConsoleAgent", _onMessageRepeatCountUpdated)
             .on("messagesCleared.ConsoleAgent", _onMessagesCleared);
+        // #endif
     }
 
     /** Clean up */
     function unload() {
+    	// #ifdef Inspector 
         $(Inspector.Console).off(".ConsoleAgent");
+        // #endif
     }
 
     // Export public functions

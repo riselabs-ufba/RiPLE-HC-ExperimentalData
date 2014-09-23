@@ -41,6 +41,7 @@ define(function DOMAgent(require, exports, module) {
     var $exports = $(exports);
 
     var Inspector = require("LiveDevelopment/Inspector/Inspector");
+    var RemoteAgent = require("LiveDevelopment/Agents/RemoteAgent");
     var EditAgent = require("LiveDevelopment/Agents/EditAgent");
     var DOMNode = require("LiveDevelopment/Agents/DOMNode");
     var DOMHelpers = require("LiveDevelopment/Agents/DOMHelpers");
@@ -119,7 +120,17 @@ define(function DOMAgent(require, exports, module) {
         if (_pendingRequests >= 0) {
             _pendingRequests++;
         }
+
         Inspector.DOM.requestChildNodes(node.nodeId);
+    }
+
+    /** Resolve a node
+     * @param {DOMNode} node
+     */
+    function resolveNode(node, callback) {
+        console.assert(node.nodeId, "Attempted to resolve node without id");
+
+        Inspector.DOM.resolveNode(node.nodeId, callback);
     }
 
     /** Eliminate the query string from a URL
@@ -188,6 +199,7 @@ define(function DOMAgent(require, exports, module) {
     // WebInspector Event: Page.loadEventFired
     function _onLoadEventFired(event, res) {
         // res = {timestamp}
+    	// #ifdef Inspector 
         Inspector.DOM.getDocument(function onGetDocument(res) {
             $exports.triggerHandler("getDocument", res);
             // res = {root}
@@ -195,6 +207,7 @@ define(function DOMAgent(require, exports, module) {
             _pendingRequests = 0;
             exports.root = new DOMNode(exports, res.root);
         });
+        // #endif
     }
 
     // WebInspector Event: Page.frameNavigated
@@ -224,6 +237,7 @@ define(function DOMAgent(require, exports, module) {
     function _onChildNodeCountUpdated(event, res) {
         // res = {nodeId, childNodeCount}
         if (res.nodeId > 0) {
+
             Inspector.DOM.requestChildNodes(res.nodeId);
         }
     }
@@ -270,6 +284,7 @@ define(function DOMAgent(require, exports, module) {
             value += node.value.substr(to - node.location);
             node.value = value;
             if (!EditAgent.isEditing) {
+
                 // only update the DOM if the change was not caused by the edit agent
                 Inspector.DOM.setNodeValue(node.nodeId, node.value);
             }
@@ -294,6 +309,7 @@ define(function DOMAgent(require, exports, module) {
     /** Initialize the agent */
     function load() {
         _load = new $.Deferred();
+     // #ifdef Inspector 
         $(Inspector.Page)
             .on("frameNavigated.DOMAgent", _onFrameNavigated)
             .on("loadEventFired.DOMAgent", _onLoadEventFired);
@@ -303,13 +319,16 @@ define(function DOMAgent(require, exports, module) {
             .on("childNodeCountUpdated.DOMAgent", _onChildNodeCountUpdated)
             .on("childNodeInserted.DOMAgent", _onChildNodeInserted)
             .on("childNodeRemoved.DOMAgent", _onChildNodeRemoved);
+        // #endif
         return _load.promise();
     }
 
     /** Clean up */
     function unload() {
+    	// #ifdef Inspector 
         $(Inspector.Page).off(".DOMAgent");
         $(Inspector.DOM).off(".DOMAgent");
+        // #endif
     }
 
     // Export private functions

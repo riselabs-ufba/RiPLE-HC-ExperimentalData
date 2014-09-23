@@ -22,7 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $ */
+/*global define, $, Mustache */
 /*unittests: FindReplace*/
 
 
@@ -35,8 +35,10 @@ define(function (require, exports, module) {
     "use strict";
 
     var CommandManager      = require("command/CommandManager"),
+        AppInit             = require("utils/AppInit"),
         Commands            = require("command/Commands"),
-        MainViewManager     = require("view/MainViewManager"),
+        DocumentManager     = require("document/DocumentManager"),
+        ProjectManager      = require("project/ProjectManager"),
         Strings             = require("strings"),
         StringUtils         = require("utils/StringUtils"),
         Editor              = require("editor/Editor"),
@@ -45,6 +47,10 @@ define(function (require, exports, module) {
         FindUtils           = require("search/FindUtils"),
         FindInFilesUI       = require("search/FindInFilesUI"),
         ScrollTrackMarkers  = require("search/ScrollTrackMarkers"),
+        PanelManager        = require("view/PanelManager"),
+        Resizer             = require("utils/Resizer"),
+        StatusBar           = require("widgets/StatusBar"),
+        PreferencesManager  = require("preferences/PreferencesManager"),
         _                   = require("thirdparty/lodash"),
         CodeMirror          = require("thirdparty/CodeMirror2/lib/codemirror");
     
@@ -61,6 +67,12 @@ define(function (require, exports, module) {
     var FIND_HIGHLIGHT_MAX  = 2000;
 
     /**
+     * Instance of the currently opened document when replaceAllPanel is visible
+     * @type {?Document}
+     */
+    var currentDocument = null;
+
+    /** 
      * Currently open Find or Find/Replace bar, if any
      * @type {?FindBar} 
      */
@@ -97,7 +109,7 @@ define(function (require, exports, module) {
         if (!queryInfo || !queryInfo.query) {
             return "";
         }
-    
+
         // Is it a (non-blank) regex?
         if (queryInfo.isRegexp) {
             try {
@@ -113,7 +125,7 @@ define(function (require, exports, module) {
             return queryInfo.query;
         }
     }
-
+    
     /**
      * @private
      * Determine the query from the given info and store it in the state.
@@ -488,7 +500,7 @@ define(function (require, exports, module) {
         function indicateHasMatches(numResults) {
             // Make the field red if it's not blank and it has no matches (which also covers invalid regexes)
             findBar.showNoResults(!state.foundAny && findBar.getQueryInfo().query);
-            
+
             // Navigation buttons enabled if we have a query and more than one match
             findBar.enableNavigation(state.foundAny && numResults > 1);
             findBar.enableReplace(state.foundAny);
@@ -633,7 +645,7 @@ define(function (require, exports, module) {
                 $(findBar).off(".FindReplace");
                 findBar = null;
             });
-        
+  
         handleQueryChange(editor, state, true);
     }
     
@@ -657,17 +669,17 @@ define(function (require, exports, module) {
      * When the user switches documents (or closes the last document), ensure that the find bar
      * closes, and also close the Replace All panel.
      */
-    function _handleFileChanged() {
+    function _handleDocumentChange() {
         if (findBar) {
             findBar.close();
         }
     }
-
+    
     function doReplace(editor, all) {
         var cm = editor._codeMirror,
             state = getSearchState(cm),
             replaceText = findBar.getReplaceText();
-
+        
         if (all) {
             findBar.close();
             // Delegate to Replace in Files.
@@ -732,8 +744,8 @@ define(function (require, exports, module) {
             replace(editor);
         }
     }
-
-    $(MainViewManager).on("currentFileChange", _handleFileChanged);
+    
+    $(DocumentManager).on("currentDocumentChange", _handleDocumentChange);
 
     CommandManager.register(Strings.CMD_FIND,                   Commands.CMD_FIND,                  _launchFind);
     CommandManager.register(Strings.CMD_FIND_NEXT,              Commands.CMD_FIND_NEXT,             _findNext);

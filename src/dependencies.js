@@ -22,7 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50, evil:true */
-/*global window, document */
+/*global window, document:true, CollectionUtils:true */
 
 /**
  * Check for missing dependencies

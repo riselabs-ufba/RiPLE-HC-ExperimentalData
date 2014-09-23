@@ -23,7 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, $ */
+/*global define, $, window, brackets */
 
 define(function (require, exports, module) {
     "use strict";
@@ -33,12 +33,37 @@ define(function (require, exports, module) {
         Commands        = require("command/Commands"),
         Dialogs         = require("widgets/Dialogs"),
         DefaultDialogs  = require("widgets/DefaultDialogs"),
-        MainViewManager = require("view/MainViewManager"),
+        DocumentManager = require("document/DocumentManager"),
         FileSystem      = require("filesystem/FileSystem"),
+        EditorManager   = require("editor/EditorManager"),
         FileUtils       = require("file/FileUtils"),
         ProjectManager  = require("project/ProjectManager"),
         Strings         = require("strings"),
         StringUtils     = require("utils/StringUtils");
+    
+    /**
+     * Return an array of files excluding all files with a custom viewer. If all files
+     * in the array have their own custom viewers, then the last file is added back in
+     * the array since only one file with custom viewer can be open at a time.
+     *
+     * @param {Array.<string>} files Array of files to filter before opening.
+     * @return {Array.<string>}
+     */
+    function filterFilesToOpen(files) {
+        // Filter out all files that have their own custom viewers
+        // since we don't keep them in the working set.
+        var filteredFiles = files.filter(function (file) {
+            return !EditorManager.getCustomViewerForPath(file);
+        });
+        
+        // If all files have custom viewers, then add back the last file
+        // so that we open it in its custom viewer.
+        if (filteredFiles.length === 0 && files.length) {
+            filteredFiles.push(files[files.length - 1]);
+        }
+        
+        return filteredFiles;
+    }
     
     /**
      * Returns true if the drag and drop items contains valid drop objects.
@@ -72,11 +97,11 @@ define(function (require, exports, module) {
      * @return {Promise} Promise that is resolved if all files are opened, or rejected
      *     if there was an error. 
      */
-    function openDroppedFiles(paths) {
+    function openDroppedFiles(files) {
         var errorFiles = [],
-            ERR_MULTIPLE_ITEMS_WITH_DIR = {};
+            filteredFiles = filterFilesToOpen(files);
         
-        return Async.doInParallel(paths, function (path, idx) {
+        return Async.doInParallel(filteredFiles, function (path, idx) {
             var result = new $.Deferred();
             
             // Only open files.
@@ -85,23 +110,23 @@ define(function (require, exports, module) {
                     // If the file is already open, and this isn't the last
                     // file in the list, return. If this *is* the last file,
                     // always open it so it gets selected.
-                    if (idx < paths.length - 1) {
-                        if (MainViewManager.findInWorkingSet(MainViewManager.ALL_PANES, path) !== -1) {
+                    if (idx < filteredFiles.length - 1) {
+                        if (DocumentManager.findInWorkingSet(path) !== -1) {
                             result.resolve();
                             return;
                         }
                     }
                     
-                    CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN,
+                    CommandManager.execute(Commands.FILE_ADD_TO_WORKING_SET,
                                            {fullPath: path, silent: true})
                         .done(function () {
                             result.resolve();
                         })
-                        .fail(function (openErr) {
-                            errorFiles.push({path: path, error: openErr});
+                        .fail(function () {
+                            errorFiles.push(path);
                             result.reject();
                         });
-                } else if (!err && item.isDirectory && paths.length === 1) {
+                } else if (!err && item.isDirectory && filteredFiles.length === 1) {
                     // One folder was dropped, open it.
                     ProjectManager.openProject(path)
                         .done(function () {
@@ -112,7 +137,7 @@ define(function (require, exports, module) {
                             result.reject();
                         });
                 } else {
-                    errorFiles.push({path: path, error: err || ERR_MULTIPLE_ITEMS_WITH_DIR});
+                    errorFiles.push(path);
                     result.reject();
                 }
             });
@@ -120,23 +145,14 @@ define(function (require, exports, module) {
             return result.promise();
         }, false)
             .fail(function () {
-                function errorToString(err) {
-                    if (err === ERR_MULTIPLE_ITEMS_WITH_DIR) {
-                        return Strings.ERROR_MIXED_DRAGDROP;
-                    } else {
-                        return FileUtils.getFileErrorString(err);
-                    }
-                }
-
                 if (errorFiles.length > 0) {
                     var message = Strings.ERROR_OPENING_FILES;
                     
                     message += "<ul class='dialog-list'>";
-                    errorFiles.forEach(function (info) {
+                    errorFiles.forEach(function (file) {
                         message += "<li><span class='dialog-filename'>" +
-                            StringUtils.breakableUrl(ProjectManager.makeProjectRelativeIfPossible(info.path)) +
-                            "</span> - " + errorToString(info.error) +
-                            "</li>";
+                            StringUtils.breakableUrl(ProjectManager.makeProjectRelativeIfPossible(file)) +
+                            "</span></li>";
                     });
                     message += "</ul>";
                     
@@ -154,4 +170,5 @@ define(function (require, exports, module) {
     // Export public API
     exports.isValidDrop         = isValidDrop;
     exports.openDroppedFiles    = openDroppedFiles;
+    exports.filterFilesToOpen   = filterFilesToOpen;
 });

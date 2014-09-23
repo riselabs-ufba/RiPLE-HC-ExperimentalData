@@ -22,7 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, brackets */
+/*global define, brackets, $, window */
 
 /**
  * This is a collection of utility functions for gathering performance data.
@@ -31,9 +31,8 @@ define(function (require, exports, module) {
     "use strict";
     
     var _ = require("thirdparty/lodash");
-
-    // make sure the global brackets variable is loaded
-    require("utils/Global");
+    
+    var Global = require("utils/Global");
 
     /**
      * Flag to enable/disable performance data gathering. Default is true (enabled)
@@ -299,7 +298,9 @@ define(function (require, exports, module) {
             }
         };
 
-        var result = "";
+        var testName,
+            index,
+            result = "";
         _.forEach(perfData, function (entry, testName) {
             result += getValue(entry) + "\t" + testName + "\n";
         });

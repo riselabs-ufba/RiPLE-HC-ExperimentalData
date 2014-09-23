@@ -34,7 +34,6 @@ define(function (require, exports, module) {
         Dialogs,
         EditorManager,
         DocumentManager,
-        MainViewManager,
         FileSystem;
 
     describe("CloseOthers", function () {
@@ -87,7 +86,6 @@ define(function (require, exports, module) {
                     $ = testWindow.$;
                     brackets		= testWindow.brackets;
                     DocumentManager = testWindow.brackets.test.DocumentManager;
-                    MainViewManager = testWindow.brackets.test.MainViewManager;
                     CommandManager  = testWindow.brackets.test.CommandManager;
                     EditorManager   = testWindow.brackets.test.EditorManager;
                     Dialogs			= testWindow.brackets.test.Dialogs;
@@ -129,21 +127,16 @@ define(function (require, exports, module) {
 
 
         function runCloseOthers() {
-            var ws = MainViewManager.getWorkingSet(MainViewManager.ACTIVE_PANE),
+            var ws = DocumentManager.getWorkingSet(),
                 promise;
 
             if (ws.length > docSelectIndex) {
                 DocumentManager.getDocumentForPath(ws[docSelectIndex].fullPath).done(function (doc) {
-                    MainViewManager._edit(MainViewManager.ACTIVE_PANE, doc);
+                    DocumentManager.setCurrentDocument(doc);
                 });
 
-                runs(function () {
-                    promise = CommandManager.execute(cmdToRun);
-                    waitsForDone(promise, cmdToRun);
-                });
-                runs(function () {
-                    expect(MainViewManager.getCurrentlyViewedPath(MainViewManager.ACTIVE_PANE)).toEqual(ws[docSelectIndex].fullPath, "Path of document in editor after close others command should be the document that was selected");
-                });
+                promise = CommandManager.execute(cmdToRun);
+                waitsForDone(promise, cmdToRun);
             }
         }
 
@@ -151,10 +144,10 @@ define(function (require, exports, module) {
             docSelectIndex = 2;
             cmdToRun       = "file.close_others";
 
-            runCloseOthers();
+            runs(runCloseOthers);
             
             runs(function () {
-                expect(MainViewManager.getWorkingSet(MainViewManager.ACTIVE_PANE).length).toEqual(1);
+                expect(DocumentManager.getWorkingSet().length).toEqual(1);
             });
         });
 
@@ -162,10 +155,10 @@ define(function (require, exports, module) {
             docSelectIndex = 2;
             cmdToRun       = "file.close_above";
 
-            runCloseOthers();
+            runs(runCloseOthers);
 
             runs(function () {
-                expect(MainViewManager.getWorkingSet(MainViewManager.ACTIVE_PANE).length).toEqual(3);
+                expect(DocumentManager.getWorkingSet().length).toEqual(3);
             });
         });
 
@@ -173,10 +166,10 @@ define(function (require, exports, module) {
             docSelectIndex = 1;
             cmdToRun       = "file.close_below";
 
-            runCloseOthers();
+            runs(runCloseOthers);
 
             runs(function () {
-                expect(MainViewManager.getWorkingSet(MainViewManager.ACTIVE_PANE).length).toEqual(2);
+                expect(DocumentManager.getWorkingSet().length).toEqual(2);
             });
         });
     });

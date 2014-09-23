@@ -41,6 +41,7 @@ define(function CSSPreprocessorDocumentModule(require, exports, module) {
         CSSUtils        = require("language/CSSUtils"),
         EditorManager   = require("editor/EditorManager"),
         HighlightAgent  = require("LiveDevelopment/Agents/HighlightAgent"),
+
         Inspector       = require("LiveDevelopment/Inspector/Inspector");
 
     /**
@@ -95,8 +96,11 @@ define(function CSSPreprocessorDocumentModule(require, exports, module) {
     };
 
     CSSPreprocessorDocument.prototype.updateHighlight = function () {
-        if (Inspector.config.highlight && this.editor) {
+
+        		Inspector.config.highlight && 
+        		this.editor) {
             var editor = this.editor,
+                codeMirror = editor._codeMirror,
                 selectors = [];
             _.each(this.editor.getSelections(), function (sel) {
                 var selector = CSSUtils.findSelectorAtDocumentPos(editor, (sel.reversed ? sel.end : sel.start));

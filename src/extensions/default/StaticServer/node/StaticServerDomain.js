@@ -22,6 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50, node: true */
+/*global */
 
 (function () {
     "use strict";
@@ -312,7 +313,8 @@
      *     Each path should begin with a forward slash "/".
      */
     function _cmdSetRequestFilterPaths(root, paths) {
-        var pathKey = getPathKey(root),
+        var rootPath = normalizeRootPath(root),
+            pathKey  = getPathKey(root),
             rewritePaths = {};
 
         // reset list of filtered paths for each call to setRequestFilterPaths

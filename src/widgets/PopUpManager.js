@@ -33,7 +33,9 @@ define(function (require, exports, module) {
     
     var AppInit         = require("utils/AppInit"),
         CommandManager  = require("command/CommandManager"),
-        KeyEvent        = require("utils/KeyEvent");
+        EditorManager   = require("editor/EditorManager"),
+        KeyEvent        = require("utils/KeyEvent"),
+        Menus           = require("command/Menus");
     
     var _popUps = [];
         

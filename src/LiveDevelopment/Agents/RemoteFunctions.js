@@ -23,8 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, browser: true, nomen: true, indent: 4, forin: true, maxerr: 50, regexp: true */
-/*jshint unused: false */
-/*global window, navigator, Node, console */
+/*global define, $, window, navigator, Node, console */
 /*theseus instrument: false */
 
 /**

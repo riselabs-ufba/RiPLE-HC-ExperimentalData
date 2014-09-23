@@ -56,7 +56,8 @@ define(function (require, exports, module) {
 
     var DocumentManager = require("document/DocumentManager"),
         HTMLSimpleDOM   = require("./HTMLSimpleDOM"),
-        HTMLDOMDiff     = require("./HTMLDOMDiff");
+        HTMLDOMDiff     = require("./HTMLDOMDiff"),
+        PerfUtils       = require("utils/PerfUtils");
     
     var allowIncremental = true;
     
@@ -136,7 +137,7 @@ define(function (require, exports, module) {
      *     given position.
      */
     function _getMarkerAtDocumentPos(editor, pos, preferParent, markCache) {
-        var marks, match;
+        var i, marks, match;
         
         markCache = markCache || {};
         marks = _getSortedTagMarks(editor._codeMirror.findMarksAt(pos), markCache);
@@ -161,7 +162,7 @@ define(function (require, exports, module) {
         
         return match.mark;
     }
-
+    
     /**
      * @private
      * Dumps the current list of mark ranges for instrumented tags to the console. Used for debugging.
@@ -179,8 +180,6 @@ define(function (require, exports, module) {
                         range.from.line + ":" + range.from.ch + " - " + range.to.line + ":" + range.to.ch);
         });
     }
-    // Workaround for JSHint to not complain about the unused function
-    void(_dumpMarks);
 
     /**
      * Get the instrumented tagID at the specified position. Returns -1 if

@@ -83,20 +83,27 @@ define(function NetworkAgent(require, exports, module) {
      * @return {jQuery.Promise} A promise resolved when the Network.enable() command is successful.
      */
     function enable() {
-        return Inspector.Network.enable();
+        return
+
+        Inspector.Network.enable()
+        ;
     }
 
     /** Initialize the agent */
     function load() {
+    	// #ifdef Inspector 
         $(Inspector.Page).on("frameNavigated.NetworkAgent", _onFrameNavigated);
         $(Inspector.Network).on("requestWillBeSent.NetworkAgent", _onRequestWillBeSent);
+        // #endif
     }
 
     /** Unload the agent */
     function unload() {
         _reset();
+     // #ifdef Inspector 
         $(Inspector.Page).off(".NetworkAgent");
         $(Inspector.Network).off(".NetworkAgent");
+        // #endif
     }
 
     // Export public functions

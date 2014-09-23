@@ -23,7 +23,7 @@
 
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global define, $ */
+/*global define, $, brackets */
 
 /**
  * FileSyncManager is a set of utilities to help track external modifications to the files and folders
@@ -43,16 +43,18 @@ define(function (require, exports, module) {
     "use strict";
     
     // Load dependent modules
-    var ProjectManager  = require("project/ProjectManager"),
-        DocumentManager = require("document/DocumentManager"),
-        MainViewManager = require("view/MainViewManager"),
-        Async           = require("utils/Async"),
-        Dialogs         = require("widgets/Dialogs"),
-        DefaultDialogs  = require("widgets/DefaultDialogs"),
-        Strings         = require("strings"),
-        StringUtils     = require("utils/StringUtils"),
-        FileUtils       = require("file/FileUtils"),
-        FileSystemError = require("filesystem/FileSystemError");
+    var ProjectManager      = require("project/ProjectManager"),
+        DocumentManager     = require("document/DocumentManager"),
+        EditorManager       = require("editor/EditorManager"),
+        Commands            = require("command/Commands"),
+        CommandManager      = require("command/CommandManager"),
+        Async               = require("utils/Async"),
+        Dialogs             = require("widgets/Dialogs"),
+        DefaultDialogs      = require("widgets/DefaultDialogs"),
+        Strings             = require("strings"),
+        StringUtils         = require("utils/StringUtils"),
+        FileUtils           = require("file/FileUtils"),
+        FileSystemError     = require("filesystem/FileSystemError");
 
     
     /**
@@ -179,7 +181,7 @@ define(function (require, exports, module) {
      */
     function syncUnopenWorkingSet() {
         // We only care about working set entries that have never been open (have no Document).
-        var unopenWorkingSetFiles = MainViewManager.getWorkingSet(MainViewManager.ALL_PANES).filter(function (wsFile) {
+        var unopenWorkingSetFiles = DocumentManager.getWorkingSet().filter(function (wsFile) {
             return !DocumentManager.getOpenDocumentForPath(wsFile.fullPath);
         });
         
@@ -469,7 +471,7 @@ define(function (require, exports, module) {
                                             
                                             // If we showed a dialog, restore focus to editor
                                             if (editConflicts.length > 0 || deleteConflicts.length > 0) {
-                                                MainViewManager.focusActivePane();
+                                                EditorManager.focusEditor();
                                             }
                                             
                                             // (Any errors that ocurred during presentConflicts() have already

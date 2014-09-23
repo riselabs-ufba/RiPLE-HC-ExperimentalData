@@ -46,7 +46,8 @@ define(function (require, exports, module) {
         EditorManager       = require("editor/EditorManager"),
         Commands            = require("command/Commands"),
         Strings             = require("strings"),
-        CommandManager      = require("command/CommandManager");
+        CommandManager      = require("command/CommandManager"),
+        PerfUtils           = require("utils/PerfUtils");
     
     var _prevMatchCmd, _nextMatchCmd;
 
@@ -192,6 +193,7 @@ define(function (require, exports, module) {
         this.$rangeList = $("<ul/>").appendTo(this.$related);
         
         // create range list & add listeners for range textrange changes
+        var rangeItemText;
         this._ranges.forEach(this._createListItem, this);
         
         if (this._ranges.length > 1) {      // attach to main container
@@ -232,6 +234,8 @@ define(function (require, exports, module) {
      * @override
      */
     MultiRangeInlineEditor.prototype.onAdded = function () {
+        var self = this;
+        
         // Before setting the inline widget height, force a height on the
         // floating related-container in order for CodeMirror to layout and
         // compute scrollbars

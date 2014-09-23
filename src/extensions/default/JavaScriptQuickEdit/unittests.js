@@ -74,10 +74,12 @@ define(function (require, exports, module) {
      * @param {!number} openOffset The offset index location within openFile to open an inline editor.
      * @param {?boolean} expectInline Use false to verify that an inline editor should not be opened. Omit otherwise.
      */
-    var _initInlineTest = function (openFile, openOffset, expectInline, filesToOpen) {
-        var spec = this;
+    var _initInlineTest = function (openFile, openOffset, expectInline, workingSet) {
+        var allFiles,
+            inlineOpened = null,
+            spec = this;
         
-        filesToOpen = filesToOpen || [];
+        workingSet = workingSet || [];
         expectInline = (expectInline !== undefined) ? expectInline : true;
         
         runs(function () {
@@ -87,8 +89,8 @@ define(function (require, exports, module) {
         SpecRunnerUtils.loadProjectInTestWindow(tempPath);
         
         runs(function () {
-            filesToOpen.push(openFile);
-            waitsForDone(SpecRunnerUtils.openProjectFiles(filesToOpen), "openProjectFiles");
+            workingSet.push(openFile);
+            waitsForDone(SpecRunnerUtils.openProjectFiles(workingSet), "openProjectFiles");
         });
         
         if (openOffset !== undefined) {
