@@ -1,7 +1,12 @@
 Thumbs.db
 
+<<<<<<< HEAD
 # ignore FeatureJS generated files
 src/
+=======
+# ignone featurejs compiled files.
+/src
+>>>>>>> origin/master
 
 # ignore jenkins build info
 /build.prop
