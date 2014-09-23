@@ -1,12 +1,7 @@
 Thumbs.db
 
-<<<<<<< HEAD
 # ignore FeatureJS generated files
 src/
-=======
-# ignone featurejs compiled files.
-/src
->>>>>>> c3a78fe74e4742a91ae4a948299e37398eda9d82
 
 # ignore jenkins build info
 /build.prop
@@ -26,12 +21,8 @@ src/
 /features/Core/extensions/dev/*
 !/features/Core/extensions/dev/README
 
-<<<<<<< HEAD
-/src/extensions/disabled
-lear
-=======
+
 /features/Core/extensions/disabled
->>>>>>> c3a78fe74e4742a91ae4a948299e37398eda9d82
 
 #OSX .DS_Store files
 .DS_Store
