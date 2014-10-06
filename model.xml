@@ -3,7 +3,6 @@
 		<struct>
 			<and abstract="true" mandatory="true" name="bracketsspl">
 				<feature mandatory="true" name="Core"/>
-				<feature name="Widgets"/>
 				<or name="LiveDevelopment">
 					<feature mandatory="true" name="Agents"/>
 					<feature mandatory="true" name="Documents"/>

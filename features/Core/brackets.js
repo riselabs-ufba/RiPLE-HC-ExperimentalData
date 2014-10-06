@@ -39,11 +39,9 @@ define(function (require, exports, module) {
     "use strict";
     
     // Load dependent non-module scripts
- // #ifdef Widgets
     require("widgets/bootstrap-dropdown");
     require("widgets/bootstrap-modal");
     require("widgets/bootstrap-twipsy-mod");
-// #endif
     require("thirdparty/path-utils/path-utils.min");
     require("thirdparty/smart-auto-complete-local/jquery.smart_autocomplete");
 
@@ -89,10 +87,8 @@ define(function (require, exports, module) {
         FileUtils               = require("file/FileUtils"),
         MainViewHTML            = require("text!htmlContent/main-view.html"),
         Strings                 = require("strings"),
-     // #ifdef Widgets        
         Dialogs                 = require("widgets/Dialogs"),
         DefaultDialogs          = require("widgets/DefaultDialogs"),
-  // #endif
         // #ifdef Extensibility
         ExtensionLoader         = require("utils/ExtensionLoader"),
         // #endif
@@ -213,10 +209,8 @@ define(function (require, exports, module) {
             JSUtils                 : JSUtils,
             KeyBindingManager       : KeyBindingManager,
             LanguageManager         : LanguageManager,
-            // #ifdef Widgets            
             LiveDevelopment         : require("LiveDevelopment/LiveDevelopment"),
             LiveDevServerManager    : require("LiveDevelopment/LiveDevServerManager"),
-         // #endif
             Menus                   : Menus,
             MultiRangeInlineEditor  : require("editor/MultiRangeInlineEditor").MultiRangeInlineEditor,
             NativeApp               : NativeApp,
