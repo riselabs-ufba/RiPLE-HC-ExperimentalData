@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+encoding//test/spec/FindReplace-known-goods/regexp-case-insensitive/foo.html=UTF-8
+encoding//test/spec/FindReplace-known-goods/regexp-case-sensitive/foo.html=UTF-8
+encoding//test/spec/FindReplace-known-goods/regexp-dollar-replace/foo.html=UTF-8

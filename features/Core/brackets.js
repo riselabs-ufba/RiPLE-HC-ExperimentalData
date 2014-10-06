@@ -72,7 +72,9 @@ define(function (require, exports, module) {
         CSSInlineEditor         = require("editor/CSSInlineEditor"),
         JSUtils                 = require("language/JSUtils"),
         WorkingSetView          = require("project/WorkingSetView"),
+        // #ifdef Sorting
         WorkingSetSort          = require("project/WorkingSetSort"),
+        // #endif
         DocumentCommandHandlers = require("document/DocumentCommandHandlers"),
         FileViewController      = require("project/FileViewController"),
         FileSyncManager         = require("project/FileSyncManager"),

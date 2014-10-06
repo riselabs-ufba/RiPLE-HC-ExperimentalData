@@ -9,19 +9,17 @@
 					<feature mandatory="true" name="Documents"/>
 					<feature mandatory="true" name="Inspector"/>
 				</or>
-				<and mandatory="true" name="Editor">
-					<feature name="CodeHint"/>
-					<or abstract="true" name="InlineEditor">
-						<feature mandatory="true" name="CSSInlineEditor"/>
-						<feature mandatory="true" name="TextInlineEditor"/>
-					</or>
-					<feature name="InlineWidget"/>
-				</and>
 				<or name="Extensibility">
 					<feature mandatory="true" name="InstallManagement"/>
 					<feature mandatory="true" name="ExtensionManagement"/>
 				</or>
 				<feature name="Help"/>
+				<and abstract="true" name="Sorting">
+					<feature mandatory="true" name="ByAge"/>
+					<feature name="ByName"/>
+					<feature name="ByType"/>
+					<feature name="Automatic"/>
+				</and>
 			</and>
 		</struct>
 		<constraints>

@@ -133,10 +133,12 @@ define(function (require, exports, module) {
     exports.TOGGLE_LINE_NUMBERS         = "view.toggleLineNumbers";     // EditorOptionHandlers.js      _getToggler()
     exports.TOGGLE_ACTIVE_LINE          = "view.toggleActiveLine";      // EditorOptionHandlers.js      _getToggler()
     exports.TOGGLE_WORD_WRAP            = "view.toggleWordWrap";        // EditorOptionHandlers.js      _getToggler()
+    // #ifdef Sorting
     exports.SORT_WORKINGSET_BY_ADDED    = "view.sortWorkingSetByAdded"; // WorkingSetSort.js            _handleSortWorkingSetByAdded()
     exports.SORT_WORKINGSET_BY_NAME     = "view.sortWorkingSetByName";  // WorkingSetSort.js            _handleSortWorkingSetByName()
     exports.SORT_WORKINGSET_BY_TYPE     = "view.sortWorkingSetByType";  // WorkingSetSort.js            _handleSortWorkingSetByType()
     exports.SORT_WORKINGSET_AUTO        = "view.sortWorkingSetAuto";    // WorkingSetSort.js            _handleAutomaticSort()
+    // #endif
     
     // NAVIGATE
     exports.NAVIGATE_NEXT_DOC           = "navigate.nextDoc";           // DocumentCommandHandlers.js   handleGoNextDoc()

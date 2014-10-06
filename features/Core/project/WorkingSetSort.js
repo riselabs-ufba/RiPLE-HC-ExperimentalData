@@ -281,24 +281,30 @@ define(function (require, exports, module) {
     
     
     /** Command Handlers */
+    // #ifdef ByAge
     function _handleSortWorkingSetByAdded() {
         get(Commands.SORT_WORKINGSET_BY_ADDED).execute();
     }
-    
+    // #endif
+    // #ifdef ByName
     function _handleSortWorkingSetByName() {
         get(Commands.SORT_WORKINGSET_BY_NAME).execute();
     }
-    
+    // #endif
+    // #ifdef ByType
     function _handleSortWorkingSetByType() {
         get(Commands.SORT_WORKINGSET_BY_TYPE).execute();
     }
-    
+    // #endif
+    // #ifdef Automatic
     function _handleAutomaticSort() {
         setAutomatic(!getAutomatic());
     }
+    // #endif
     
     
     // Register Sort Methods
+    // #ifdef ByAge
     register(
         Commands.SORT_WORKINGSET_BY_ADDED,
         function (file1, file2) {
@@ -309,6 +315,8 @@ define(function (require, exports, module) {
         },
         "workingSetAdd workingSetAddList"
     );
+    // #endif
+    // #ifdef ByName
     register(
         Commands.SORT_WORKINGSET_BY_NAME,
         function (file1, file2) {
@@ -316,6 +324,8 @@ define(function (require, exports, module) {
         },
         "workingSetAdd workingSetAddList"
     );
+    // #endif
+    // #ifdef ByType
     register(
         Commands.SORT_WORKINGSET_BY_TYPE,
         function (file1, file2) {
@@ -323,14 +333,22 @@ define(function (require, exports, module) {
         },
         "workingSetAdd workingSetAddList"
     );
+    // #endif
     
     
     // Register Command Handlers
+    // #ifdef ByAge
     CommandManager.register(Strings.CMD_SORT_WORKINGSET_BY_ADDED, Commands.SORT_WORKINGSET_BY_ADDED, _handleSortWorkingSetByAdded);
+    // #endif
+    // #ifdef ByName
     CommandManager.register(Strings.CMD_SORT_WORKINGSET_BY_NAME,  Commands.SORT_WORKINGSET_BY_NAME,  _handleSortWorkingSetByName);
+    // #endif
+    // #ifdef ByType
     CommandManager.register(Strings.CMD_SORT_WORKINGSET_BY_TYPE,  Commands.SORT_WORKINGSET_BY_TYPE,  _handleSortWorkingSetByType);
+    // #endif
+    // #ifdef Automatic
     CommandManager.register(Strings.CMD_SORT_WORKINGSET_AUTO,     Commands.SORT_WORKINGSET_AUTO,     _handleAutomaticSort);
-    
+    // #endif
     
     // Initialize default values for sorting preferences
     PreferencesManager.stateManager.definePreference("currentSort", "string", Commands.SORT_WORKINGSET_BY_ADDED);
