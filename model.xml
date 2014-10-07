@@ -61,6 +61,12 @@
 					<var>SingleQueue</var>
 				</imp>
 			</rule>
+			<rule>
+				<imp>
+					<var>HeapSort</var>
+					<var>Heap</var>
+				</imp>
+			</rule>
 		</constraints>
 		<comments/>
 		<featureOrder userDefined="false"/>
