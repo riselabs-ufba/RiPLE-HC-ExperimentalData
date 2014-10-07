@@ -48,7 +48,20 @@
 				</or>
 			</and>
 		</struct>
-		<constraints/>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Dijkstra</var>
+					<var>PriorityQueue</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>BFS</var>
+					<var>SingleQueue</var>
+				</imp>
+			</rule>
+		</constraints>
 		<comments/>
 		<featureOrder userDefined="false"/>
 	</featureModel>
