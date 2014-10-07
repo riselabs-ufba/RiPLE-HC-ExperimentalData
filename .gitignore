@@ -1,0 +1,12 @@
+
+node_modules
+coverage
+
+
+# ignore generated files
+/src
+/bin
+
+
+# ignore temporary files
+.tmp/
