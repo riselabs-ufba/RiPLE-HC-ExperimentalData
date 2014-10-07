@@ -21,7 +21,9 @@
  */
 'use strict';
 
+//#ifdef PriorityQueue
 var PriorityQueue = require('../../data_structures/priority_queue');
+//#endif
 
 /**
  * Calculates the shortest paths in a graph to every node from the node s
@@ -34,14 +36,18 @@ var PriorityQueue = require('../../data_structures/priority_queue');
 function dijkstra(graph, s) {
   var distance = {};
   var previous = {};
+//#ifdef PriorityQueue
   var q = new PriorityQueue();
+//#endif  
   // Initialize
   distance[s] = 0;
   graph.vertices.forEach(function (v) {
     if (v !== s) {
       distance[v] = Infinity;
     }
+  //#ifdef PriorityQueue
     q.insert(v, distance[v]);
+  //#endif 
   });
 
   var currNode;

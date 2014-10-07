@@ -38,7 +38,9 @@ function SPFA(graph, s) {
   var tail     = 1;
   // initialize
   distance[s] = 0;
+  //#ifdef SingleQueue
   queue[0] = s;
+  //#endif
   isInQue[s] = true;
   graph.vertices.forEach(function (v) {
     if (v !== s) {
@@ -49,7 +51,9 @@ function SPFA(graph, s) {
 
   var currNode;
   while (head != tail) {
+	//#ifdef SingleQueue
     currNode = queue[head++];
+  //#endif
     isInQue[currNode] = false;
     var neighbors = graph.neighbors(currNode);
     for (var i = 0; i < neighbors.length; i++) {

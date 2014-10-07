@@ -20,14 +20,17 @@
  * IN THE SOFTWARE.
  */
 'use strict';
+//#ifdef SingleQueue
 var Queue = require('../../data_structures/queue.js');
-
+//#endif
 /**
  * Breadth-first search for binary trees
  */
 var bfs = function (root, callback) {
+	//#ifdef SingleQueue	
   var q = new Queue();
   q.push(root);
+//#endif
   var node;
   while (!q.isEmpty()) {
     node = q.pop();
