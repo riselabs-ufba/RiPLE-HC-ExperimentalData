@@ -3,7 +3,7 @@
 		<struct>
 			<and abstract="true" mandatory="true" name="algorithmsjsspl">
 				<feature name="Base"/>
-				<or mandatory="true" name="DataStructures">
+				<or abstract="true" mandatory="true" name="DataStructures">
 					<feature mandatory="true" name="BST"/>
 					<feature mandatory="true" name="Graph"/>
 					<feature mandatory="true" name="Heap"/>
@@ -14,7 +14,7 @@
 					</alt>
 					<feature mandatory="true" name="Stack"/>
 				</or>
-				<or mandatory="true" name="Algorithms">
+				<or abstract="true" mandatory="true" name="Algorithms">
 					<or abstract="true" mandatory="true" name="GraphBased">
 						<feature mandatory="true" name="BellmanFord"/>
 						<feature mandatory="true" name="Dijkstra"/>
@@ -63,8 +63,26 @@
 			</rule>
 			<rule>
 				<imp>
+					<var>SPFA</var>
+					<var>SingleQueue</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
 					<var>HeapSort</var>
 					<var>Heap</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>TopologicalSort</var>
+					<var>Stack</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Queue</var>
+					<var>LinkedList</var>
 				</imp>
 			</rule>
 		</constraints>
