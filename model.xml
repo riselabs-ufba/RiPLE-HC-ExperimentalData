@@ -8,7 +8,7 @@
 					<feature mandatory="true" name="Graph"/>
 					<feature mandatory="true" name="Heap"/>
 					<feature mandatory="true" name="LinkedList"/>
-					<alt mandatory="true" name="Queue">
+					<alt abstract="true" mandatory="true" name="Queue">
 						<feature mandatory="true" name="SingleQueue"/>
 						<feature mandatory="true" name="PriorityQueue"/>
 					</alt>

@@ -20,20 +20,24 @@
  * IN THE SOFTWARE.
  */
 'use strict';
-
+//#ifdef LinkedList
 var LinkedList = require('./linked_list');
-
+//#endif
 /**
  * Queue (FIFO) using a Linked List as basis
  */
 function Queue() {
-  this._elements = new LinkedList();
-
+// #ifdef LinkedList
+  this._elements = 
+  new LinkedList();
+  
   Object.defineProperty(this, 'length', {
     get: function () {
       return this._elements.length;
     }.bind(this)
   });
+// else  {} // this tag is not working properly 
+// #endif  
 }
 
 Queue.prototype.isEmpty = function () {
