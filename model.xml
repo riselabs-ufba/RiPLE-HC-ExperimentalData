@@ -4,6 +4,7 @@
 			<and abstract="true" mandatory="true" name="videojsspl">
 				<feature mandatory="true" name="Base"/>
 				<feature name="AutoSetup"/>
+				<feature name="FullScreen"/>
 			</and>
 		</struct>
 		<constraints/>

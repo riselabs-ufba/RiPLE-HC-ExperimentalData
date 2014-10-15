@@ -46,6 +46,7 @@ videojs.Player.prototype.videoWidth = function(){};
 videojs.Player.prototype.videoHeight = function(){};
 videojs.Player.prototype.poster = function(){};
 
+//#ifdef FullScreen
 /**
  * Fullscreen functionality
  */
@@ -55,6 +56,7 @@ videojs.Player.prototype.requestFullscreen = function(){};
 videojs.Player.prototype.requestFullScreen = function(){}; /* deprecated */
 videojs.Player.prototype.exitFullscreen = function(){};
 videojs.Player.prototype.cancelFullScreen = function(){}; /* deprecated */
+//#endif
 
 /**
  * Text tracks

@@ -21,9 +21,11 @@ vjs.Html5 = vjs.MediaTechController.extend({
     // In iOS, if you move a video element in the DOM, it breaks video playback.
     this.features['movingMediaElementInDOM'] = !vjs.IS_IOS;
 
+    //#ifdef FullScreen
     // HTML video is able to automatically resize when going to fullscreen
     this.features['fullscreenResize'] = true;
-
+    //#endif
+    
     vjs.MediaTechController.call(this, player, options, ready);
     this.setupTriggers();
 

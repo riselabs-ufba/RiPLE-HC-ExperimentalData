@@ -69,8 +69,10 @@ vjs.Player = vjs.Component.extend({
       this.on('pause', this.onPause);
       this.on('progress', this.onProgress);
       this.on('durationchange', this.onDurationChange);
+    //#ifdef FullScreen
       this.on('fullscreenchange', this.onFullscreenChange);
-    });
+    //#endif
+      });
 
     // Run base component initializing with new options.
     // Builds the element through createEl()
@@ -553,11 +555,13 @@ vjs.Player.prototype.onVolumeChange;
  * @event fullscreenchange
  */
 vjs.Player.prototype.onFullscreenChange = function() {
+	// #ifdef FullScreen
   if (this.isFullscreen()) {
     this.addClass('vjs-fullscreen');
   } else {
     this.removeClass('vjs-fullscreen');
   }
+  //#endif
 };
 
 // /* Player API
@@ -830,12 +834,13 @@ vjs.Player.prototype.muted = function(muted){
   }
   return this.techGet('muted') || false; // Default to false
 };
-
+//#ifdef FullScreen
 // Check if current tech can support native fullscreen
 // (e.g. with built in controls lik iOS, so not our flash swf)
 vjs.Player.prototype.supportsFullScreen = function(){
   return this.techGet('supportsFullScreen') || false;
 };
+//#endif
 
 /**
  * is the player in fullscreen
@@ -878,6 +883,7 @@ vjs.Player.prototype.isFullScreen = function(isFS){
   return this.isFullscreen(isFS);
 };
 
+//#ifdef FullScreen
 /**
  * Increase the size of the video to full screen
  *
@@ -932,7 +938,8 @@ vjs.Player.prototype.requestFullscreen = function(){
 
   return this;
 };
-
+//#endif
+//#ifdef FullScreen
 /**
  * Old naming for requestFullscreen
  * @deprecated for lower case 's' version
@@ -941,8 +948,8 @@ vjs.Player.prototype.requestFullScreen = function(){
   vjs.log.warn('player.requestFullScreen() has been deprecated, use player.requestFullscreen() with a lowercase "s")');
   return this.requestFullscreen();
 };
-
-
+//#endif
+//#ifdef FullScreen
 /**
  * Return the video to its normal size after having been in full screen mode
  *
@@ -966,7 +973,8 @@ vjs.Player.prototype.exitFullscreen = function(){
 
   return this;
 };
-
+//#endif
+//#ifdef FullScreen
 /**
  * Old naming for exitFullscreen
  * @deprecated for exitFullscreen
@@ -975,7 +983,8 @@ vjs.Player.prototype.cancelFullScreen = function(){
   vjs.log.warn('player.cancelFullScreen() has been deprecated, use player.exitFullscreen()');
   return this.exitFullscreen();
 };
-
+//#endif
+//#ifdef FullScreen
 // When fullscreen isn't supported we can stretch the video container to as wide as the browser will let us.
 vjs.Player.prototype.enterFullWindow = function(){
   this.isFullWindow = true;
@@ -1018,6 +1027,7 @@ vjs.Player.prototype.exitFullWindow = function(){
   // this.positionAll();
   this.trigger('exitFullWindow');
 };
+//#endif
 
 vjs.Player.prototype.selectSource = function(sources){
 

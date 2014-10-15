@@ -77,7 +77,9 @@ goog.exportSymbol('videojs.TextTrackDisplay', vjs.TextTrackDisplay);
 goog.exportSymbol('videojs.ControlBar', vjs.ControlBar);
 goog.exportSymbol('videojs.Button', vjs.Button);
 goog.exportSymbol('videojs.PlayToggle', vjs.PlayToggle);
+//#ifdef FullScreen
 goog.exportSymbol('videojs.FullscreenToggle', vjs.FullscreenToggle);
+//#endif
 goog.exportSymbol('videojs.BigPlayButton', vjs.BigPlayButton);
 goog.exportSymbol('videojs.LoadingSpinner', vjs.LoadingSpinner);
 goog.exportSymbol('videojs.CurrentTimeDisplay', vjs.CurrentTimeDisplay);

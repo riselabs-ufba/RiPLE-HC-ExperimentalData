@@ -308,6 +308,7 @@ vjs.TextTrack.prototype.mode = function(){
   return this.mode_;
 };
 
+//#ifdef FullScreen
 /**
  * Change the font size of the text track to make it larger when playing in fullscreen mode
  * and restore it to its normal size when not in fullscreen mode.
@@ -323,6 +324,7 @@ vjs.TextTrack.prototype.adjustFontSize = function(){
         this.el_.style.fontSize = '';
     }
 };
+//#endif
 
 /**
  * Create basic div to hold cue text
