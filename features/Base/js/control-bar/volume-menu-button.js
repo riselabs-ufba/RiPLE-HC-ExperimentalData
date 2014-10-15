@@ -35,7 +35,9 @@ vjs.VolumeMenuButton.prototype.createMenu = function(){
 };
 
 vjs.VolumeMenuButton.prototype.onClick = function(){
+  //#ifdef Mute
   vjs.MuteToggle.prototype.onClick.call(this);
+  //#endif
   vjs.MenuButton.prototype.onClick.call(this);
 };
 

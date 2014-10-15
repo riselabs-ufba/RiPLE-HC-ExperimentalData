@@ -5,6 +5,10 @@
 				<feature mandatory="true" name="Base"/>
 				<feature name="AutoSetup"/>
 				<feature name="FullScreen"/>
+				<and abstract="true" mandatory="true" name="ControlBar">
+					<feature name="PlaybackRate"/>
+					<feature name="Mute"/>
+				</and>
 			</and>
 		</struct>
 		<constraints/>

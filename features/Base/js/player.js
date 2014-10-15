@@ -813,7 +813,7 @@ vjs.Player.prototype.volume = function(percentAsDecimal){
   return (isNaN(vol)) ? 1 : vol;
 };
 
-
+//#ifdef Mute
 /**
  * Get the current muted state, or turn mute on or off
  *
@@ -834,6 +834,8 @@ vjs.Player.prototype.muted = function(muted){
   }
   return this.techGet('muted') || false; // Default to false
 };
+//#endif
+
 //#ifdef FullScreen
 // Check if current tech can support native fullscreen
 // (e.g. with built in controls lik iOS, so not our flash swf)

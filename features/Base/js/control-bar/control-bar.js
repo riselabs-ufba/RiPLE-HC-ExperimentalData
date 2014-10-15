@@ -18,11 +18,17 @@ vjs.ControlBar.prototype.options_ = {
     'remainingTimeDisplay': {},
     'liveDisplay': {},
     'progressControl': {},
+    //#ifdef FullScreen
     'fullscreenToggle': {},
+    //#endif
     'volumeControl': {},
+    //#ifdef Mute
     'muteToggle': {},
+    //#endif
     // 'volumeMenuButton': {},
+    //#ifdef PlaybackRate
     'playbackRateMenuButton': {}
+    //#endif
   }
 };
 

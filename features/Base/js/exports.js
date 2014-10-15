@@ -99,12 +99,16 @@ goog.exportSymbol('videojs.VolumeBar', vjs.VolumeBar);
 goog.exportSymbol('videojs.VolumeLevel', vjs.VolumeLevel);
 goog.exportSymbol('videojs.VolumeMenuButton', vjs.VolumeMenuButton);
 goog.exportSymbol('videojs.VolumeHandle', vjs.VolumeHandle);
+//#ifdef Mute
 goog.exportSymbol('videojs.MuteToggle', vjs.MuteToggle);
+//#endif
 goog.exportSymbol('videojs.PosterImage', vjs.PosterImage);
 goog.exportSymbol('videojs.Menu', vjs.Menu);
 goog.exportSymbol('videojs.MenuItem', vjs.MenuItem);
 goog.exportSymbol('videojs.MenuButton', vjs.MenuButton);
+//#ifdef PlaybackRate
 goog.exportSymbol('videojs.PlaybackRateMenuButton', vjs.PlaybackRateMenuButton);
+//#endif
 goog.exportProperty(vjs.MenuButton.prototype, 'createItems', vjs.MenuButton.prototype.createItems);
 goog.exportProperty(vjs.TextTrackButton.prototype, 'createItems', vjs.TextTrackButton.prototype.createItems);
 goog.exportProperty(vjs.ChaptersButton.prototype, 'createItems', vjs.ChaptersButton.prototype.createItems);
