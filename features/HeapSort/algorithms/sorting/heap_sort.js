@@ -20,8 +20,9 @@
  * IN THE SOFTWARE.
  */
 'use strict';
+//#ifdef Heap
 var MinHeap = require('../../data_structures/heap').MinHeap;
-
+//#endif
 /**
  * Heap sort first creates a valid heap data structure. Next it
  * iteratively removes the smallest element of the heap until it's

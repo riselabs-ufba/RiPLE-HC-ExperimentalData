@@ -20,9 +20,11 @@
  * IN THE SOFTWARE.
  */
 'use strict';
-
+//#ifdef Stack
 var Stack = require('../../data_structures/stack');
+//#endif
 
+	
 /**
  * Sorts the edges of the DAG topologically
  *
@@ -37,7 +39,8 @@ var Stack = require('../../data_structures/stack');
  * @param {Graph}
  * @return Stack
  */
-var topologicalSort = function (graph) {
+ var topologicalSort = function (graph) {
+ 
   var stack = new Stack();
   var firstHit = {};
   var secondHit = {};
@@ -56,7 +59,7 @@ var topologicalSort = function (graph) {
     secondHit[node] = ++time;
     stack.push(node);
   };
-
+  
   graph.vertices.forEach(function (node) {
     if (!secondHit[node]) {
       dagDFS(node);
@@ -67,3 +70,4 @@ var topologicalSort = function (graph) {
 };
 
 module.exports = topologicalSort;
+

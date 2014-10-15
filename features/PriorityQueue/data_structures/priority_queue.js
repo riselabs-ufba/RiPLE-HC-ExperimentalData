@@ -20,9 +20,9 @@
  * IN THE SOFTWARE.
  */
 'use strict';
-
+//#ifdef Heap
 var MinHeap = require('./heap').MinHeap;
-
+//#endif
 /**
  * Extends the MinHeap with the only difference that
  * the heap operations are performed based on the priority of the element
