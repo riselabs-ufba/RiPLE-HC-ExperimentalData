@@ -103,6 +103,7 @@ vjs.Flash = vjs.MediaTechController.extend({
       });
     }
 
+    //#ifdef Mozilla
     // firefox doesn't bubble mousemove events to parent. videojs/video-js-swf#37
     // bugzilla bug: https://bugzilla.mozilla.org/show_bug.cgi?id=836786
     if (vjs.IS_FIREFOX) {
@@ -113,7 +114,8 @@ vjs.Flash = vjs.MediaTechController.extend({
         }));
       });
     }
-
+    //#endif
+    
     // Flash iFrame Mode
     // In web browsers there are multiple instances where changing the parent element or visibility of a plugin causes the plugin to reload.
     // - Firefox just about always. https://bugzilla.mozilla.org/show_bug.cgi?id=90268 (might be fixed by version 13)

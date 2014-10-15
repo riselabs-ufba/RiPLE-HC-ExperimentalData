@@ -5,10 +5,16 @@
 				<feature mandatory="true" name="Base"/>
 				<feature name="AutoSetup"/>
 				<feature name="FullScreen"/>
-				<and abstract="true" mandatory="true" name="ControlBar">
-					<feature name="PlaybackRate"/>
-					<feature name="Mute"/>
-				</and>
+				<or abstract="true" mandatory="true" name="ControlBar">
+					<feature mandatory="true" name="PlaybackRate"/>
+					<feature mandatory="true" name="Mute"/>
+				</or>
+				<or abstract="true" name="BrowserAPISupport">
+					<feature mandatory="true" name="WebKit"/>
+					<feature mandatory="true" name="OldWebKit"/>
+					<feature mandatory="true" name="Mozilla"/>
+					<feature mandatory="true" name="Microsoft"/>
+				</or>
 			</and>
 		</struct>
 		<constraints/>

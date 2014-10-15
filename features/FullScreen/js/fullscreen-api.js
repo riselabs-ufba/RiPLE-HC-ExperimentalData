@@ -19,7 +19,9 @@
       'fullscreenEnabled',
       'fullscreenchange',
       'fullscreenerror'
-    ],
+    ]
+    //#ifdef WebKit
+    ,
     // WebKit
     [
       'webkitRequestFullscreen',
@@ -28,7 +30,11 @@
       'webkitFullscreenEnabled',
       'webkitfullscreenchange',
       'webkitfullscreenerror'
-    ],
+    ]
+    //#endif
+   
+    //#ifdef OldWebKit
+    ,
     // Old WebKit (Safari 5.1)
     [
       'webkitRequestFullScreen',
@@ -37,7 +43,11 @@
       'webkitCancelFullScreen',
       'webkitfullscreenchange',
       'webkitfullscreenerror'
-    ],
+    ]
+    //#endif
+   
+    //#ifdef Mozilla
+    ,
     // Mozilla
     [
       'mozRequestFullScreen',
@@ -46,9 +56,12 @@
       'mozFullScreenEnabled',
       'mozfullscreenchange',
       'mozfullscreenerror'
-    ],
+     ]
+     //#endif
+   
+     //#ifdef Microsoft
     // Microsoft
-    [
+    ,[
       'msRequestFullscreen',
       'msExitFullscreen',
       'msFullscreenElement',
@@ -56,6 +69,7 @@
       'MSFullscreenChange',
       'MSFullscreenError'
     ]
+    //#endif
   ];
 
   specApi = apiMap[0];
