@@ -1,0 +1,21 @@
+.DS_Store
+
+dist/*
+
+build/files/*
+
+docs/api/*
+
+dev.html
+projects
+.zenflow-log
+test/*
+
+
+# ignore generated files
+/src
+/bin
+
+
+# ignore temporary files
+.tmp/
