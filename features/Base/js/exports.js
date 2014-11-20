@@ -83,7 +83,9 @@ goog.exportSymbol('videojs.FullscreenToggle', vjs.FullscreenToggle);
 //#ifdef BigPlayButton
 goog.exportSymbol('videojs.BigPlayButton', vjs.BigPlayButton);
 //#endif
+//#ifdef LoadingSpinner
 goog.exportSymbol('videojs.LoadingSpinner', vjs.LoadingSpinner);
+//#endif
 goog.exportSymbol('videojs.CurrentTimeDisplay', vjs.CurrentTimeDisplay);
 goog.exportSymbol('videojs.DurationDisplay', vjs.DurationDisplay);
 goog.exportSymbol('videojs.TimeDivider', vjs.TimeDivider);

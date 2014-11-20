@@ -98,7 +98,9 @@ vjs.options = {
     'mediaLoader': {},
     'posterImage': {},
     'textTrackDisplay': {},
+    //#ifdef LoadingSpinner
     'loadingSpinner': {},
+    //#endif
     //#ifdef BigPlayButton
     'bigPlayButton': {},
     //#endif

@@ -15,6 +15,8 @@
 					<feature mandatory="true" name="Mozilla"/>
 					<feature mandatory="true" name="Microsoft"/>
 				</or>
+				<feature name="BigPlayButton"/>
+				<feature name="LoadingSpinner"/>
 			</and>
 		</struct>
 		<constraints/>
