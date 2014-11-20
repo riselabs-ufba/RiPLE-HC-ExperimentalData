@@ -99,7 +99,9 @@ vjs.options = {
     'posterImage': {},
     'textTrackDisplay': {},
     'loadingSpinner': {},
+    //#ifdef BigPlayButton
     'bigPlayButton': {},
+    //#endif
     'controlBar': {},
     'errorDisplay': {}
   },
