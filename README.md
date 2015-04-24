@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FloraJS: a JavaScript framework for rendering natural systems in a web browser.
 
 In Flora, the 'world' is your web browser. DOM elements inhabit the world and behave according to rules meant to simulate a natural environment. You can find demos at http://www.florajs.com.
@@ -626,3 +627,7 @@ A post-commit hook is defined in /post-commit that runs the Plato complexity ana
 
 ```
 ln -s ../../post-commit .git/hooks/post-commit
+=======
+# florajs-spl
+an spl from florajs.
+>>>>>>> 7609f5b04b0a1082a2b593528a62a36835b8f871
