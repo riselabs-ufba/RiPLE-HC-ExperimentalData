@@ -10,6 +10,7 @@ site/
 *.gem
 .bundle
 tags
+src/*
 Gemfile.lock
 pkg/*
 .sass-cache/*

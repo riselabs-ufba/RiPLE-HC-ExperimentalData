@@ -11,7 +11,11 @@ getJasmineRequireObj().Env = function(j$) {
 
     var realSetTimeout = j$.getGlobal().setTimeout;
     var realClearTimeout = j$.getGlobal().clearTimeout;
-    this.clock = new j$.Clock(global, new j$.DelayedFunctionScheduler(), new j$.MockDate(global));
+    this.clock = new j$.Clock(global, new j$.DelayedFunctionScheduler()
+    //#ifdef MockDate
+    , new j$.MockDate(global)
+    //#endif
+    );
 
     var runnableLookupTable = {};
 
@@ -98,11 +102,14 @@ getJasmineRequireObj().Env = function(j$) {
 
     // TODO: we may just be able to pass in the fn instead of wrapping here
     var buildExpectationResult = j$.buildExpectationResult,
+        //#ifdef ExceptionFormatter
         exceptionFormatter = new j$.ExceptionFormatter(),
+        //#endif
         expectationResultFactory = function(attrs) {
+          //#ifdef ExceptionFormatter
           attrs.messageFormatter = exceptionFormatter.message;
           attrs.stackFormatter = exceptionFormatter.stack;
-
+          //#endif
           return buildExpectationResult(attrs);
         };
 
@@ -263,7 +270,9 @@ getJasmineRequireObj().Env = function(j$) {
         beforeFns: beforeFns(suite),
         afterFns: afterFns(suite),
         expectationFactory: expectationFactory,
+        //#ifdef ExceptionFormatter
         exceptionFormatter: exceptionFormatter,
+        //#endif
         resultCallback: specResultCallback,
         getSpecName: function(spec) {
           return getSpecName(spec, suite);

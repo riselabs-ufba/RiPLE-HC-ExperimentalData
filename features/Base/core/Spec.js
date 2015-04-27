@@ -8,7 +8,9 @@ getJasmineRequireObj().Spec = function(j$) {
     this.beforeFns = attrs.beforeFns || function() { return []; };
     this.afterFns = attrs.afterFns || function() { return []; };
     this.onStart = attrs.onStart || function() {};
+    //#ifdef ExceptionFormatter
     this.exceptionFormatter = attrs.exceptionFormatter || function() {};
+    //#endif
     this.getSpecName = attrs.getSpecName || function() { return ''; };
     this.expectationResultFactory = attrs.expectationResultFactory || function() { };
     this.queueRunnerFactory = attrs.queueRunnerFactory || function() {};

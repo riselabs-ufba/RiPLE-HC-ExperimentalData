@@ -2,7 +2,11 @@
 	<featureModel chosenLayoutAlgorithm="1">
 		<struct>
 			<and abstract="true" mandatory="true" name="JasmineSPL">
-				<feature name="Base"/>
+				<feature mandatory="true" name="Base"/>
+				<feature name="Matchers"/>
+				<feature name="Suite"/>
+				<feature name="MockDate"/>
+				<feature name="ExceptionFormatter"/>
 			</and>
 		</struct>
 		<constraints/>
