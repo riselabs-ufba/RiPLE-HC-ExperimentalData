@@ -6,15 +6,23 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 		
 		keys: {
 			google:				"",
+			//#ifdef Flickr
 			flickr:				"",
+			//#endif
+			//#ifdef Twitter 
 			twitter:			""
+			//#endif
 		},
 		
 		keys_master: {
 			vp:			"Pellentesque nibh felis, eleifend id, commodo in, interdum vitae, leo",
+			//#ifdef Flickr 
 			flickr:		"RAIvxHY4hE/Elm5cieh4X5ptMyDpj7MYIxziGxi0WGCcy1s+yr7rKQ==",
+			//#endif
 			google:		"jwNGnYw4hE9lmAez4ll0QD+jo6SKBJFknkopLS4FrSAuGfIwyj57AusuR0s8dAo=",
+			//#ifdef Twitter
 			twitter:	""
+			//#endif
 		},
 		
 		init: function() {
@@ -26,42 +34,61 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 		},
 		
 		pushQues: function() {
-			
+			//#ifdef GMaps 
 			if (VMM.master_config.googlemaps.active) {
 				VMM.ExternalAPI.googlemaps.pushQue();
 			}
+			//#endif
+			//#ifdef YouTube
 			if (VMM.master_config.youtube.active) {
 				VMM.ExternalAPI.youtube.pushQue();
 			}
+			//#endif
+			//#ifdef SoundCloud
 			if (VMM.master_config.soundcloud.active) {
 				VMM.ExternalAPI.soundcloud.pushQue();
 			}
+			//#endif
+			//#ifdef GDocs
 			if (VMM.master_config.googledocs.active) {
 				VMM.ExternalAPI.googledocs.pushQue();
 			}
+			//#endif
+			//#ifdef GPlus
 			if (VMM.master_config.googleplus.active) {
 				VMM.ExternalAPI.googleplus.pushQue();
 			}
+			//#endif
+			//#ifdef Wikipedia
 			if (VMM.master_config.wikipedia.active) {
 				VMM.ExternalAPI.wikipedia.pushQue();
 			}
+			//#endif
+			//#ifdef Vimeo
 			if (VMM.master_config.vimeo.active) {
 				VMM.ExternalAPI.vimeo.pushQue();
 			}
+			//#endif
+			//#ifdef Vine
 			if (VMM.master_config.vine.active) {
 				VMM.ExternalAPI.vine.pushQue();
 			}
+			//#endif
+			//#ifdef Twitter
 			if (VMM.master_config.twitter.active) {
 				VMM.ExternalAPI.twitter.pushQue();
 			}
+			//#endif
+			//#ifdef Flickr
 			if (VMM.master_config.flickr.active) {
 				VMM.ExternalAPI.flickr.pushQue();
 			}
+			//#endif
 			if (VMM.master_config.webthumb.active) {
 				VMM.ExternalAPI.webthumb.pushQue();
 			}
 		},
-		
+		//#ifdef Twitter
 		twitter: {
 			tweetArray: [],
 			
@@ -377,7 +404,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			
 			
 		},
-		
+		//#endif
+		//#ifdef GMaps
 		googlemaps: {
 			
 			maptype: "TERRAIN", // see also below for default if this is a google type
@@ -942,7 +970,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 				}
 			}
 		},
-		
+		//#endif
+		//#ifdef GPlus
 		googleplus: {
 			
 			get: function(m) {
@@ -1088,7 +1117,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			}
 			
 		},
-		
+		//#endif
+		//#ifdef GDocs
 		googledocs: {
 			
 			get: function(m) {
@@ -1115,7 +1145,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			}
 		
 		},
-		
+		//#endif
+		//#ifdef  Flickr
 		flickr: {
 			
 			get: function(m) {
@@ -1213,7 +1244,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 				return photo_info.split("/")[1];
 			}
 		},
-		
+		//#endif
+		//#ifdef Instagram
 		instagram: {
 			get: function(m, thumb) {
 				if (thumb) {
@@ -1250,7 +1282,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 				
 			}
 		},
-		
+		//#endif
+		//#ifdef SoundCloud
 		soundcloud: {
 			
 			get: function(m) {
@@ -1274,7 +1307,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			}
 			
 		},
-		
+		//#endif
+		//#ifdef Wikipedia
 		wikipedia: {
 			
 			get: function(m) {
@@ -1367,7 +1401,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			}
 			
 		},
-		
+		//#endif
+		//#ifdef YouTube
 		youtube: {
 			
 			get: function(m) {
@@ -1499,7 +1534,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			
 			
 		},
-		
+		//#endif
+		//#ifdef Vimeo
 		vimeo: {
 			
 			get: function(m) {
@@ -1539,7 +1575,8 @@ if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
 			}
 			
 		},
-		
+		//#endif
+		//#ifdef Vine
 		vine: {
 			
 			get: function(m) {

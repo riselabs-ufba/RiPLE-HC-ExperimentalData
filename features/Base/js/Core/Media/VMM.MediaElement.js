@@ -35,48 +35,74 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 				if (m.type == "image") {
 					mediaElem		=	"<div class='thumbnail thumb-photo'></div>";
 					return mediaElem;
+				//#ifdef Flickr
 				} else if (m.type	==	"flickr") {
 					mediaElem		=	"<div class='thumbnail thumb-photo' id='" + uid + "_thumb'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Instagram
 				} else if (m.type	==	"instagram") {
 					mediaElem		=	"<div class='thumbnail thumb-instagram' id='" + uid + "_thumb'><img src='" + VMM.ExternalAPI.instagram.get(m, true) + "'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef YouTube
 				} else if (m.type	==	"youtube") {
 					mediaElem		=	"<div class='thumbnail thumb-youtube' id='" + uid + "_thumb'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef GDocs
 				} else if (m.type	==	"googledoc") {
 					mediaElem		=	"<div class='thumbnail thumb-document'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Vimeo
 				} else if (m.type	==	"vimeo") {
 					mediaElem		=	"<div class='thumbnail thumb-vimeo' id='" + uid + "_thumb'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Vine
 				} else if (m.type  ==  "vine") {
 					mediaElem		=  "<div class='thumbnail thumb-vine'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef DailyMotion
 				} else if (m.type  ==  "dailymotion") {
 					mediaElem		=  "<div class='thumbnail thumb-video'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Twitter
 				} else if (m.type	==	"twitter"){
 					mediaElem		=	"<div class='thumbnail thumb-twitter'></div>";
 					return mediaElem;
 				} else if (m.type	==	"twitter-ready") {
 					mediaElem		=	"<div class='thumbnail thumb-twitter'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef SoundCloud
 				} else if (m.type	==	"soundcloud") {
 					mediaElem		=	"<div class='thumbnail thumb-audio'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef GMaps 
 				} else if (m.type	==	"google-map") {
 					mediaElem		=	"<div class='thumbnail thumb-map'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef GPlus
 				} else if (m.type		==	"googleplus") {
 					mediaElem		=	"<div class='thumbnail thumb-googleplus'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Wikipedia
 				} else if (m.type	==	"wikipedia") {
 					mediaElem		=	"<div class='thumbnail thumb-wikipedia'></div>";
 					return mediaElem;
+				//#endif
+				//#ifdef Storify
 				} else if (m.type	==	"storify") {
 					mediaElem		=	"<div class='thumbnail thumb-storify'></div>";
 					return mediaElem;
+				//#endif
 				} else if (m.type	==	"quote") {
 					mediaElem		=	"<div class='thumbnail thumb-quote'></div>";
 					return mediaElem;
@@ -126,11 +152,14 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 						m.id = m.id.replace("https://","http://");
 					}
 					mediaElem			=	"<div class='media-image media-shadow'><img src='" + m.id + "' class='media-image'></div>";
+			//#ifdef Flickr
 			// FLICKR
 				} else if (m.type		==	"flickr") {
 					//mediaElem			=	"<div class='media-image media-shadow' id='" + uid + "'>" + loading_messege + "</div>";
 					mediaElem			=	"<div class='media-image media-shadow'><a href='" + m.link + "' target='_blank'><img id='" + uid + "'></a></div>";
 					VMM.ExternalAPI.flickr.get(m);
+			//#endif
+			//#ifdef Instagram
 			// INSTAGRAM
 				} else if (m.type		==	"instagram") {
 					mediaElem			=	"<div class='media-image media-shadow'><a href='" + m.link + "' target='_blank'><img src='" + VMM.ExternalAPI.instagram.get(m) + "'></a></div>";
@@ -138,21 +167,31 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 				} else if (m.type		==	"googledoc") {
 					mediaElem			=	"<div class='media-frame media-shadow doc' id='" + m.uid + "'>" + loading_messege + "</div>";
 					VMM.ExternalAPI.googledocs.get(m);
+			//#endif
+			//#ifdef YouTube
 			// YOUTUBE
 				} else if (m.type		==	"youtube") {
 					mediaElem			=	"<div class='media-shadow'><div class='media-frame video youtube' id='" + m.uid + "'>" + loading_messege + "</div></div>";
 					VMM.ExternalAPI.youtube.get(m);
+			//#endif
+			//#ifdef Vimeo
 			// VIMEO
 				} else if (m.type		==	"vimeo") {
 					mediaElem			=	"<div class='media-shadow media-frame video vimeo' id='" + m.uid + "'>" + loading_messege + "</div>";
 					VMM.ExternalAPI.vimeo.get(m);
+			//#endif
+			//#ifdef DailyMotion
 			// DAILYMOTION
 				} else if (m.type		==	"dailymotion") {
 					mediaElem			=	"<div class='media-shadow'><iframe class='media-frame video dailymotion' autostart='false' frameborder='0' width='100%' height='100%' src='http://www.dailymotion.com/embed/video/" + m.id + "'></iframe></div>";
+			//#endif
+			//#ifdef Vine
 			// VINE
 				} else if (m.type		==	"vine") {
 					mediaElem			=	"<div class='media-shadow media-frame video vine' id='" + m.uid + "'>" + loading_messege + "</div>";
 					VMM.ExternalAPI.vine.get(m);
+			//#endif
+			//#ifdef Twitter
 			// TWITTER
 				} else if (m.type		==	"twitter"){
 					mediaElem			=	"<div class='twitter' id='" + m.uid + "'>" + loading_messege + "</div>";
@@ -162,29 +201,40 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 				} else if (m.type		==	"twitter-ready") {
 					isTextMedia			=	true;
 					mediaElem			=	m.id;
+			//#endif
+			//#ifdef SoundCloud
 			// SOUNDCLOUD
 				} else if (m.type		==	"soundcloud") {
 					mediaElem			=	"<div class='media-frame media-shadow soundcloud' id='" + m.uid + "'>" + loading_messege + "</div>";
 					VMM.ExternalAPI.soundcloud.get(m);
+			//#endif
+			//#ifdef GMaps
 			// GOOGLE MAPS
 				} else if (m.type		==	"google-map") {
 					mediaElem			=	"<div class='media-frame media-shadow map' id='" + m.uid + "'>" + loading_messege + "</div>";
 					VMM.ExternalAPI.googlemaps.get(m);
+			//#endif
+			//#ifdef GPlus
 			// GOOGLE PLUS
 				} else if (m.type		==	"googleplus") {
 					_id					=	"googleplus_" + m.id;
 					mediaElem			=	"<div class='googleplus' id='" + _id + "'>" + loading_messege + "</div>";
 					isTextMedia			=	true;
 					VMM.ExternalAPI.googleplus.get(m);
+			//#endif
+			//#ifdef Wikipedia
 			// WIKIPEDIA
 				} else if (m.type		==	"wikipedia") {
 					mediaElem			=	"<div class='wikipedia' id='" + m.uid + "'>" + loading_messege + "</div>";
 					isTextMedia			=	true;
 					VMM.ExternalAPI.wikipedia.get(m);
+			//#endif
+			//#ifdef Storify
 			// STORIFY
 				} else if (m.type		==	"storify") { 
 					isTextMedia			=	true;
 					mediaElem			=	"<div class='plain-text-quote'>" + m.id + "</div>";
+			//#endif
 			// IFRAME
 				} else if (m.type		==	"iframe") { 
 					isTextMedia			=	true;

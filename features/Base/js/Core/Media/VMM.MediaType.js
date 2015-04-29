@@ -37,6 +37,7 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			}
 			trace( "iframe url: " + media.id );
 			success = Boolean(media.id);
+		//#ifdef YouTube
 		} else if (d.match('(www.)?youtube|youtu\.be')) {
 			if (d.match('v=')) {
 				media.id	= VMM.Util.getUrlVars(d)["v"];
@@ -52,14 +53,20 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			media.hd	= VMM.Util.getUrlVars(d)["hd"];
 		    media.type = "youtube";
 		    success = true;
+		//#endif
+		//#ifdef Vimeo
 		} else if (d.match('(player.)?vimeo\.com')) {
 		    media.type = "vimeo";
 		    media.id = d.split(/video\/|\/\/vimeo\.com\//)[1].split(/[?&]/)[0];;
 		    success = true;
+		//#endif
+		//#ifdef DailyMotion
 	    } else if (d.match('(www.)?dailymotion\.com')) {
 			media.id = d.split(/video\/|\/\/dailymotion\.com\//)[1];
 			media.type = "dailymotion";
 			success = true;
+		//#endif
+		//#ifdef Vine
 	    } else if (d.match('(www.)?vine\.co')) {
 			trace("VINE");
 			//https://vine.co/v/b55LOA1dgJU
@@ -70,10 +77,14 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			trace(d);
 			media.type = "vine";
 			success = true;
+		//#endif
+		//#ifdef SoundCloud
 		} else if (d.match('(player.)?soundcloud\.com')) {
 			media.type = "soundcloud";
 			media.id = d;
 			success = true;
+		//#endif
+		//#ifdef Twitter
 		} else if (d.match('(www.)?twitter\.com') && d.match('status') ) {
 			if (d.match("status\/")) {
 				media.id = d.split("status\/")[1];
@@ -84,10 +95,14 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			}
 			media.type = "twitter";
 			success = true;
+		//#endif
+		//#ifdef GMaps
 		} else if (d.match("maps.google") && !d.match("staticmap") && !d.match('streetview')) {
 			media.type = "google-map";
 		    media.id = d.split(/src=['|"][^'|"]*?['|"]/gi);
 			success = true;
+		//#endif
+		//#ifdef GPlus
 		} else if (d.match("plus.google")) {
 			media.type = "googleplus";
 		    media.id = d.split("/posts/")[1];
@@ -99,16 +114,21 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 				media.user = d.split("google.com/")[1].split("/posts/")[0];
 			}
 			success = true;
+		//#endif
+		//#ifdef Flickr
 		} else if (d.match("flickr.com/photos/")) {
 			media.type = "flickr";
 			media.id = VMM.ExternalAPI.flickr.getFlickrIdFromUrl(d)
 			media.link = d;
 			success = Boolean(media.id);
+		//#endif
+		//#ifdef Instagram
 		} else if (VMM.ExternalAPI.instagram.isInstagramUrl(d)) {
 			media.type = "instagram";
 			media.link = d;
 			media.id = VMM.ExternalAPI.instagram.getInstagramIdFromUrl(d)
 			success = Boolean(media.id);
+		//#endif
 		} else if (d.match(/jpg|jpeg|png|gif|svg|bmp/i) || 
 				   d.match("staticmap") || 
 				   d.match("yfrog.com") || 
@@ -117,10 +137,13 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			media.type = "image";
 			media.id = d;
 			success = true;
+		//#ifdef GDocs
 		} else if (VMM.FileExtention.googleDocType(d)) {
 			media.type = "googledoc";
 			media.id = d;
 			success = true;
+		//#endif
+		//#ifdef Wikipedia
 		} else if (d.match('(www.)?wikipedia\.org')) {
 			media.type = "wikipedia";
 			//media.id = d.split("wiki\/")[1];
@@ -129,14 +152,17 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			media.id = wiki_id.replace(" ", "%20");
 			media.lang = d.split("//")[1].split(".wikipedia")[0];
 			success = true;
+		//#endif
 		} else if (d.indexOf('http://') == 0) {
 			media.type = "website";
 			media.id = d;
 			success = true;
+		//#ifdef Storify
 		} else if (d.match('storify')) {
 			media.type = "storify";
 			media.id = d;
 			success = true;
+		//#endif
 		} else {
 			trace("unknown media");  
 			media.type = "unknown";
