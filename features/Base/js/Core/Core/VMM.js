@@ -114,10 +114,14 @@ if (typeof VMM == 'undefined') {
 		vp:				"Pellentesque nibh felis, eleifend id, commodo in, interdum vitae, leo",
 		
 		api_keys_master: {
+			//#ifdef Flickr
 			flickr:		"RAIvxHY4hE/Elm5cieh4X5ptMyDpj7MYIxziGxi0WGCcy1s+yr7rKQ==",
+			//#endif
 			//google:		"jwNGnYw4hE9lmAez4ll0QD+jo6SKBJFknkopLS4FrSAuGfIwyj57AusuR0s8dAo=",
 			google:		"uQKadH1VMlCsp560gN2aOiMz4evWkl1s34yryl3F/9FJOsn+/948CbBUvKLN46U=",
+			//#ifdef Twitter
 			twitter:	""
+			//endif
 		},
 		
 		timers: {
@@ -128,49 +132,53 @@ if (typeof VMM == 'undefined') {
 			pushques:		[]
 			
 		},
-		
+		//#ifdef Twitter
 		twitter: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef Flickr
 		flickr: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef YuouTube
 		youtube: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef Vimeo
 		vimeo: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef Vine
 		vine: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
 		webthumb: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#ifdef GMaps
 		googlemaps: {
 			active:			false,
 			map_active:		false,
@@ -179,21 +187,24 @@ if (typeof VMM == 'undefined') {
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef GDocs
 		googledocs: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef GPlus
 		googleplus: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		},
-		
+		//#endif
+		//#ifdef Wikipedia
 		wikipedia: {
 			active:			false,
 			array:			[],
@@ -201,14 +212,15 @@ if (typeof VMM == 'undefined') {
 			que:			[],
 			tries:			0
 		},
-		
+		//#endif
+		//#ifdef SoundCloud
 		soundcloud: {
 			active:			false,
 			array:			[],
 			api_loaded:		false,
 			que:			[]
 		}
-		
+		//#endif
 	}).init();
 	
 	//VMM.createElement(tag, value, cName, attrs, styles);

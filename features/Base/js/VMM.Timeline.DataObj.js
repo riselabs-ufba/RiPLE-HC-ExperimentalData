@@ -498,6 +498,7 @@ if (typeof VMM.Timeline !== 'undefined' && typeof VMM.Timeline.DataObj == 'undef
 				
 			},
 			
+			//#ifdef Storify
 			storify: {
 				
 				getData: function(raw) {
@@ -723,7 +724,9 @@ if (typeof VMM.Timeline !== 'undefined' && typeof VMM.Timeline.DataObj == 'undef
 				}
 				
 			},
+			//#endif
 			
+			//#ifdef Twitter
 			tweets: {
 				
 				type: "twitter",
@@ -779,6 +782,7 @@ if (typeof VMM.Timeline !== 'undefined' && typeof VMM.Timeline.DataObj == 'undef
 				}
 				
 			}
+			//#endif
 		},
 		
 		

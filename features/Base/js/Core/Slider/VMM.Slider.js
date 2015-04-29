@@ -518,12 +518,14 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 			VMM.Lib.css(	layout_media + 		".media-frame", 		"max-height", 	mediasize.media.video.height);
 			VMM.Lib.css(	layout_media + 		".media-frame", 		"max-width", 	mediasize.media.video.width);
 			
+			//#ifdef SoundCloud
 			// SOUNDCLOUD
 			VMM.Lib.height(	layout_media + 		".soundcloud", 							168);
 			VMM.Lib.height(	layout_text_media + ".soundcloud", 							168);
 			VMM.Lib.width(	layout_media + 		".soundcloud", 							mediasize.media.width);
 			VMM.Lib.width(	layout_text_media + ".soundcloud", 							mediasize.text_media.width);
 			VMM.Lib.css(	layout_both + 		".soundcloud", 			"max-height", 	168 );
+			//#endif
 			
 			// MAPS
 			VMM.Lib.height(	layout_text_media	+ ".map", 								mediasize.text_media.height);
@@ -539,8 +541,12 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 			VMM.Lib.width(	layout_media		+ ".doc", 								mediasize.media.width);
 			
 			// IE8 NEEDS THIS
+			//#ifdef Wikipedia
 			VMM.Lib.width(	layout_media + 		".wikipedia", 							mediasize.media.width);
+			//#endif
+			//#ifdef Twitter
 			VMM.Lib.width(	layout_media + 		".twitter", 							mediasize.media.width);
+			//#endif
 			VMM.Lib.width(	layout_media + 		".plain-text-quote", 					mediasize.media.width);
 			VMM.Lib.width(	layout_media + 		".plain-text", 							mediasize.media.width);
 			
