@@ -47,10 +47,17 @@ Agent.prototype.init = function(opt_options) {
   var i, max, options = opt_options || {};
   Agent._superClass.prototype.init.call(this, options);
 
+  //#ifdef FollowMouse
   this.followMouse = !!options.followMouse;
+  //#endif
+  
   this.maxSteeringForce = typeof options.maxSteeringForce === 'undefined' ? 5 : options.maxSteeringForce;
+  //#ifdef SeekObject
   this.seekTarget = options.seekTarget || null;
+  //#endif 
+  //#ifdef Flocking
   this.flocking = !!options.flocking;
+  //#endif
   this.desiredSeparation = typeof options.desiredSeparation === 'undefined' ? this.width * 2 : options.desiredSeparation;
   this.separateStrength = typeof options.separateStrength === 'undefined' ? 0.3 : options.separateStrength;
   this.alignStrength = typeof options.alignStrength === 'undefined' ? 0.2 : options.alignStrength;
@@ -148,6 +155,7 @@ Agent.prototype.applyAdditionalForces = function() {
     this.applyForce(this.motorDir); // constantly applies a force
   }
 
+  //#ifdef FollowMouse
   if (this.followMouse && !Burner.System.supportedFeatures.touch) { // follow mouse
     var t = {
       location: new Burner.Vector(Burner.System.mouse.location.x,
@@ -155,10 +163,13 @@ Agent.prototype.applyAdditionalForces = function() {
     };
     this.applyForce(this._seek(t));
   }
+  //#endif
 
+  //#ifdef SeekObject
   if (this.seekTarget) { // seek target
     this.applyForce(this._seek(this.seekTarget));
   }
+  //#endif
 
   if (this.flowField) { // follow flow field
     var res = this.flowField.resolution,
@@ -183,9 +194,11 @@ Agent.prototype.applyAdditionalForces = function() {
 
   }
 
+  //#ifdef Flocking
   if (this.flocking) {
     this.flock(Burner.System.getAllItemsByName(this.name));
   }
+  //#endif
 
   if (this.avoidWorldEdges) {
     this._checkAvoidEdges();

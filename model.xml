@@ -2,7 +2,12 @@
 	<featureModel chosenLayoutAlgorithm="1">
 		<struct>
 			<and abstract="true" mandatory="true" name="FloraJSSPL">
-				<feature name="Base"/>
+				<feature mandatory="true" name="Base"/>
+				<or name="Agent">
+					<feature mandatory="true" name="Flocking"/>
+					<feature mandatory="true" name="FollowMouse"/>
+					<feature mandatory="true" name="SeekObject"/>
+				</or>
 				<feature name="Captions"/>
 				<or name="Sensor">
 					<feature mandatory="true" name="Accelerate"/>
