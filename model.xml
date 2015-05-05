@@ -3,6 +3,19 @@
 		<struct>
 			<and abstract="true" mandatory="true" name="FloraJSSPL">
 				<feature name="Base"/>
+				<feature name="Captions"/>
+				<or name="Sensor">
+					<feature mandatory="true" name="Accelerate"/>
+					<feature mandatory="true" name="Aggressive"/>
+					<feature mandatory="true" name="Consume"/>
+					<feature mandatory="true" name="Coward"/>
+					<feature mandatory="true" name="Curious"/>
+					<feature mandatory="true" name="Decelerate"/>
+					<feature mandatory="true" name="Destroy"/>
+					<feature mandatory="true" name="Explorer"/>
+					<feature mandatory="true" name="Likes"/>
+					<feature mandatory="true" name="Love"/>
+				</or>
 			</and>
 		</struct>
 		<constraints/>

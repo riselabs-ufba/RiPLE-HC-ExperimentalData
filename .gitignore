@@ -2,6 +2,7 @@
 node_modules
 reports
 doc
+src
 
 #### FILES ####
 *.DS_Store
