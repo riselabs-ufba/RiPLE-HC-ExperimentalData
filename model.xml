@@ -21,6 +21,7 @@
 					<feature mandatory="true" name="Likes"/>
 					<feature mandatory="true" name="Love"/>
 				</or>
+				<feature name="Stimulus"/>
 			</and>
 		</struct>
 		<constraints/>
