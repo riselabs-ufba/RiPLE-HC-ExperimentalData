@@ -1,25 +1,18 @@
-
-.DS_Store
-
-dist/*
-
-build/files/*
-
-docs/api/*
-
-dev.html
-projects
-.zenflow-log
-test/*
-
+#### FOLDERS ####
 node_modules
-coverage
-
-
-# ignore generated files
-/src
-/bin
-
-
-# ignore temporary files
+reports
+doc
 .tmp/
+coverage
+projects
+bin
+
+#### FILES ####
+*.DS_Store
+*.swp
+dev.html
+dist/*
+test/*
+build/files/*
+docs/api/*
+.zenflow-log

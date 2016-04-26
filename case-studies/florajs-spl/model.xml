@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="FloraJSSPL">
+				<feature mandatory="true" name="Base"/>
+				<or name="Agent">
+					<feature mandatory="true" name="Flocking"/>
+					<feature mandatory="true" name="FollowMouse"/>
+					<feature mandatory="true" name="SeekObject"/>
+				</or>
+				<feature name="Captions"/>
+				<or name="Sensor">
+					<feature mandatory="true" name="Accelerate"/>
+					<feature mandatory="true" name="Aggressive"/>
+					<feature mandatory="true" name="Consume"/>
+					<feature mandatory="true" name="Coward"/>
+					<feature mandatory="true" name="Curious"/>
+					<feature mandatory="true" name="Decelerate"/>
+					<feature mandatory="true" name="Destroy"/>
+					<feature mandatory="true" name="Explorer"/>
+					<feature mandatory="true" name="Likes"/>
+					<feature mandatory="true" name="Love"/>
+				</or>
+				<feature name="Stimulus"/>
+			</and>
+		</struct>
+		<constraints/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
