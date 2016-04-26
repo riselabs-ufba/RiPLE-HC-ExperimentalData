@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="4">
+		<struct>
+			<and abstract="true" mandatory="true" name="algorithmsjsspl">
+				<feature mandatory="true" name="Base"/>
+				<or abstract="true" mandatory="true" name="DataStructures">
+					<feature mandatory="true" name="BST"/>
+					<feature mandatory="true" name="Graph"/>
+					<feature mandatory="true" name="Heap"/>
+					<feature mandatory="true" name="LinkedList"/>
+					<alt abstract="true" mandatory="true" name="Queue">
+						<feature mandatory="true" name="SingleQueue"/>
+						<feature mandatory="true" name="PriorityQueue"/>
+					</alt>
+					<feature mandatory="true" name="Stack"/>
+				</or>
+				<or abstract="true" mandatory="true" name="Algorithms">
+					<or abstract="true" mandatory="true" name="GraphBased">
+						<feature mandatory="true" name="BellmanFord"/>
+						<feature mandatory="true" name="Dijkstra"/>
+						<feature mandatory="true" name="SPFA"/>
+						<feature mandatory="true" name="TopologicalSort"/>
+					</or>
+					<or abstract="true" mandatory="true" name="MathBased">
+						<feature mandatory="true" name="ExtendedEuclidean"/>
+						<feature mandatory="true" name="Fibonacci"/>
+						<feature mandatory="true" name="FisherYates"/>
+						<feature mandatory="true" name="GCD"/>
+						<feature mandatory="true" name="NewtonSQRT"/>
+					</or>
+					<or abstract="true" mandatory="true" name="SearchRelated">
+						<feature mandatory="true" name="BFS"/>
+						<feature mandatory="true" name="BinarySearch"/>
+						<feature mandatory="true" name="DFS"/>
+					</or>
+					<or abstract="true" mandatory="true" name="SortingBased">
+						<feature mandatory="true" name="BubbleSort"/>
+						<feature mandatory="true" name="CountingSort"/>
+						<feature mandatory="true" name="HeapSort"/>
+						<feature mandatory="true" name="InsertionSort"/>
+						<feature mandatory="true" name="MergeSort"/>
+						<feature mandatory="true" name="QuickSort"/>
+					</or>
+					<or abstract="true" mandatory="true" name="StringRelated">
+						<feature mandatory="true" name="EditDistance"/>
+						<feature mandatory="true" name="KarpRabin"/>
+					</or>
+				</or>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Dijkstra</var>
+					<var>PriorityQueue</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>BFS</var>
+					<var>SingleQueue</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>SPFA</var>
+					<var>SingleQueue</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>HeapSort</var>
+					<var>Heap</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>TopologicalSort</var>
+					<var>Stack</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Queue</var>
+					<var>LinkedList</var>
+				</imp>
+			</rule>
+		</constraints>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>

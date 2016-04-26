@@ -1,3 +1,4 @@
+
 .DS_Store
 
 dist/*
@@ -10,6 +11,9 @@ dev.html
 projects
 .zenflow-log
 test/*
+
+node_modules
+coverage
 
 
 # ignore generated files
