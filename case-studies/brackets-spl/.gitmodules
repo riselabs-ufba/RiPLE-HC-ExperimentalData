@@ -1,0 +1,27 @@
+[submodule "features/Core/thirdparty/CodeMirror2"]
+	path = features/Core/thirdparty/CodeMirror2
+	url = https://github.com/adobe/CodeMirror2.git
+[submodule "features/Core/thirdparty/path-utils"]
+	path = features/Core/thirdparty/path-utils
+	url = https://github.com/jblas/path-utils.git
+[submodule "features/Core/thirdparty/mustache"]
+	path = features/Core/thirdparty/mustache
+	url = https://github.com/janl/mustache.js.git
+[submodule "features/Core/extensions/default/JavaScriptCodeHints/thirdparty/tern"]
+	path = features/Core/extensions/default/JavaScriptCodeHints/thirdparty/tern
+	url = https://github.com/marijnh/tern.git
+[submodule "features/Core/extensions/default/JavaScriptCodeHints/thirdparty/acorn"]
+	path = features/Core/extensions/default/JavaScriptCodeHints/thirdparty/acorn
+	url = https://github.com/marijnh/acorn.git
+[submodule "features/Core/thirdparty/requirejs"]
+	path = features/Core/thirdparty/requirejs
+	url = https://github.com/jrburke/requirejs.git
+[submodule "features/Core/thirdparty/text"]
+	path = features/Core/thirdparty/text
+	url = https://github.com/requirejs/text.git
+[submodule "features/Core/thirdparty/i18n"]
+	path = features/Core/thirdparty/i18n
+	url = https://github.com/requirejs/i18n.git
+[submodule "features/Core/extensions/default/JSLint/thirdparty/jslint"]
+	path = features/Core/extensions/default/JSLint/thirdparty/jslint
+	url = https://github.com/douglascrockford/JSLint.git

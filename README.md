@@ -1,17 +1,43 @@
 # RiPLE-HC-ExperimentalData
-This aggregates the open-source projects refactored with RiPLE-HC (which you can find in the folder 'case-studies'), as well as the data from the controlled experiment with students (which you can find in the folder 'controlled-experiment').
+-------------------------------------------------
+This repository aggregates the data gathered during the evaluation of the **Ri**SE **P**roduct **L**ine *E**ngineering by **H**ybrid **C**omposition (RiPLE-HC) approach to build Javascript based product lines. 
 
-## Case Studies
+In the following, we enumerate the content available and contact information.
 
-All this projects were conducted for experimental purposes, in case of interest in any of them, please refer to the original one.
+#### Case Studies
 
-:: Video.js-SPL derived from [Video.js - HTML5 Video Player](http://videojs.com)
+These prjectes (which you can find in the folder 'case-studies')  are Software Product Lines (SPL) versions of different open-source projects. We used RiPLE-HC to perform the refactoring. All of them were conducted for experimental purposes, in case of interest in any of them, please refer to the original one.
 
-:: algorithms.js-SPL derived from [Algorithms.js - CS101 Javascript implementations](https://github.com/felipernb/algorithms.js)
+:: Video.js-SPL derived from [Video.js - HTML5 Video Player](http://videojs.com).
 
-:: FloraJS-SPL derived from [FloraJS](http://github.com/foldi/FloraJS)
+:: Algorithms.js-SPL derived from [Algorithms.js - CS101 Javascript implementations](https://github.com/felipernb/algorithms.js).
 
-:: Jasmine-SPL derived from [Jasmine](http://jasmine.github.io)
+:: FloraJS-SPL derived from [FloraJS](http://github.com/foldi/FloraJS).
+
+:: Jasmine-SPL derived from [Jasmine](http://jasmine.github.io).
+
+:: Brackets-SPL derived from [Brackets](http://brackets.io/).
 
 
-## Controlled Experiment Data
+#### Controlled Experiment Data
+
+The data from the controlled experiment with students you can find in the folder 'controlled-experiment'.
+
+
+# Additional Information
+----------------------------------------------
+
+This project was started as an academic initiative of [RiSE Labs](http://www.rise.com.br). 
+
+#### Related Publications
+
+* [Low-level variability support for web-based software product lines](http://doi.acm.org/10.1145/2556624.2556637) @ VaMoS 2014.
+
+
+#### Contact info
+
+* **Twitter:** [@riselabs](https://twitter.com/RiSE_Labs)
+* **Blog:** http://www.rise.com.br/riselabs/news/
+
+#### Main Developer
+* Alcemir R. Santos ([@alcemirsantos](https://github.com/alcemirsantos))

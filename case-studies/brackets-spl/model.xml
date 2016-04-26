@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="bracketsspl">
+				<feature mandatory="true" name="Core"/>
+				<or name="LiveDevelopment">
+					<feature mandatory="true" name="Agents"/>
+					<feature mandatory="true" name="Documents"/>
+					<feature mandatory="true" name="Inspector"/>
+				</or>
+				<or name="Extensibility">
+					<feature mandatory="true" name="InstallManagement"/>
+					<feature mandatory="true" name="ExtensionManagement"/>
+				</or>
+				<feature name="Help"/>
+				<and abstract="true" name="Sorting">
+					<feature mandatory="true" name="ByAge"/>
+					<feature name="ByName"/>
+					<feature name="ByType"/>
+					<feature name="Automatic"/>
+				</and>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Agents</var>
+					<var>Inspector</var>
+				</imp>
+			</rule>
+		</constraints>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
