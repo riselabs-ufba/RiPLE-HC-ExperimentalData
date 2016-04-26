@@ -82,3 +82,19 @@ src/
 # Files that can be automatically downloaded that we don't want to ship with our builds
 /features/Core/extensibility/node/node_modules/request/tests/
 
+*.DS_Store
+.DS_Store*
+dev_examples/
+cdn/
+src/*
+compiled
+*.tmproj
+*.tmproject
+tmtags
+source/gfx/Sprites/
+/node_modules
+*.pyc
+codekit-config.json
+build/website
+
+

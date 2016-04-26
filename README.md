@@ -16,6 +16,8 @@ These prjectes (which you can find in the folder 'case-studies')  are Software P
 
 :: Jasmine-SPL derived from [Jasmine](http://jasmine.github.io).
 
+:: TimelineJS-SPL derived from [Timeline](https://github.com/NUKnightLab/TimelineJS)
+
 :: Brackets-SPL derived from [Brackets](http://brackets.io/).
 
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="TimelineJSSPL">
+				<feature name="Base"/>
+				<or abstract="true" name="ExternalMediaSources">
+					<feature mandatory="true" name="Twitter"/>
+					<feature mandatory="true" name="Flickr"/>
+					<feature mandatory="true" name="GMaps"/>
+					<feature mandatory="true" name="GPlus"/>
+					<feature mandatory="true" name="GDocs"/>
+					<feature mandatory="true" name="YouTube"/>
+					<feature mandatory="true" name="Vimeo"/>
+					<feature mandatory="true" name="Vine"/>
+					<feature mandatory="true" name="DailyMotion"/>
+					<feature mandatory="true" name="Wikipedia"/>
+					<feature mandatory="true" name="SoundCloud"/>
+					<feature mandatory="true" name="Instagram"/>
+					<feature mandatory="true" name="Storify"/>
+				</or>
+			</and>
+		</struct>
+		<constraints/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
