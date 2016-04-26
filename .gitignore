@@ -8,7 +8,6 @@ projects
 bin
 
 #### FILES ####
-*.DS_Store
 *.swp
 dev.html
 dist/*
@@ -18,7 +17,6 @@ docs/api/*
 .zenflow-log
 .idea/
 .svn/
-.DS_Store
 site/
 .bundle/
 .pairs
@@ -82,8 +80,6 @@ src/
 # Files that can be automatically downloaded that we don't want to ship with our builds
 /features/Core/extensibility/node/node_modules/request/tests/
 
-*.DS_Store
-.DS_Store*
 dev_examples/
 cdn/
 src/*
@@ -96,5 +92,3 @@ source/gfx/Sprites/
 *.pyc
 codekit-config.json
 build/website
-
-
