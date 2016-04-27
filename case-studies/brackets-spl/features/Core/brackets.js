@@ -138,9 +138,7 @@ define(function (require, exports, module) {
     require("search/FindReplace");
  // #ifdef Extensibility
     require("extensibility/InstallExtensionDialog");
- // #ifdef ExtensionManagement
     require("extensibility/ExtensionManagerDialog");
-    // #endif
     // #endif
     require("editor/ImageViewer");
     
